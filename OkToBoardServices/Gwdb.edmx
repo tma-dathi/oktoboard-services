@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="GWdbModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="GWdbModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="GWdbModelStoreContainer">
           <EntitySet Name="tblCCAccomodation" EntityType="GWdbModel.Store.tblCCAccomodation" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="tblCCArrangement" EntityType="GWdbModel.Store.tblCCArrangement" store:Type="Tables" Schema="dbo" />
@@ -359,8 +359,8 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="GWdbModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="GWdbEntities" p1:LazyLoadingEnabled="true">
+      <Schema Namespace="GWdbModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="GWdbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="tblCCAccomodations" EntityType="GWdbModel.tblCCAccomodation" />
           <EntitySet Name="tblCCArrangements" EntityType="GWdbModel.tblCCArrangement" />
           <EntitySet Name="tblCCCompanies" EntityType="GWdbModel.tblCCCompany" />
@@ -423,7 +423,7 @@
           <Property Name="ccacIsActive" Type="Boolean" Nullable="false" />
           <Property Name="ccacRemarks" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
           <Property Name="ccacSiteID" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
-          <Property Name="ccacTimeID" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" p1:StoreGeneratedPattern="Computed" />
+          <Property Name="ccacTimeID" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="ccacRowGUID" Type="Guid" />
           <NavigationProperty Name="tblCCPersonnel" Relationship="GWdbModel.FK_tblCCAccomodation_tblCCPersonnel" FromRole="tblCCAccomodation" ToRole="tblCCPersonnel" />
         </EntityType>
@@ -465,7 +465,7 @@
           <Property Name="ccarUpdatedBy" Type="Guid" Nullable="false" />
           <Property Name="ccarUpdatedDt" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ccarSiteID" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
-          <Property Name="ccarTimeID" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" p1:StoreGeneratedPattern="Computed" />
+          <Property Name="ccarTimeID" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="ccarRowGUID" Type="Guid" Nullable="false" />
           <NavigationProperty Name="tblCCShipName" Relationship="GWdbModel.FK_tblCCArrangement_tblCCShipName" FromRole="tblCCArrangement" ToRole="tblCCShipName" />
           <NavigationProperty Name="tblCCPersonnels" Relationship="GWdbModel.FK_tblCCPersonnel_tblCCArrangement" FromRole="tblCCArrangement" ToRole="tblCCPersonnel" />
@@ -512,7 +512,7 @@
           <Property Name="ccflK2ETAPID" Type="Int32" />
           <Property Name="ccflIsActive" Type="Boolean" Nullable="false" />
           <Property Name="ccflSiteID" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
-          <Property Name="ccflTimeID" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" p1:StoreGeneratedPattern="Computed" />
+          <Property Name="ccflTimeID" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="ccflRowGUID" Type="Guid" Nullable="false" />
           <NavigationProperty Name="tblCCPersonnel" Relationship="GWdbModel.FK_tblCCFlight_tblCCPersonnel" FromRole="tblCCFlight" ToRole="tblCCPersonnel" />
         </EntityType>
@@ -549,7 +549,7 @@
           <Property Name="ccpeIsActive" Type="Boolean" Nullable="false" />
           <Property Name="ccpeRemarks" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
           <Property Name="ccpeSiteID" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
-          <Property Name="ccpeTimeID" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" p1:StoreGeneratedPattern="Computed" />
+          <Property Name="ccpeTimeID" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="ccpeRowGUID" Type="Guid" Nullable="false" />
           <NavigationProperty Name="tblCCAccomodations" Relationship="GWdbModel.FK_tblCCAccomodation_tblCCPersonnel" FromRole="tblCCPersonnel" ToRole="tblCCAccomodation" />
           <NavigationProperty Name="tblCCArrangement" Relationship="GWdbModel.FK_tblCCPersonnel_tblCCArrangement" FromRole="tblCCPersonnel" ToRole="tblCCArrangement" />
@@ -576,7 +576,7 @@
           <Property Name="ccpkIsActive" Type="Boolean" Nullable="false" />
           <Property Name="ccpkRemarks" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
           <Property Name="ccpkSiteID" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
-          <Property Name="ccpkTimeID" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" p1:StoreGeneratedPattern="Computed" />
+          <Property Name="ccpkTimeID" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="ccpkRowGUID" Type="Guid" Nullable="false" />
           <NavigationProperty Name="tblCCPersonnel" Relationship="GWdbModel.FK_tblCCPickup_tblCCPersonnel" FromRole="tblCCPickup" ToRole="tblCCPersonnel" />
         </EntityType>
@@ -591,7 +591,7 @@
           <Property Name="ccsnIMO" Type="Int32" />
           <Property Name="ccsnIsActive" Type="Boolean" Nullable="false" />
           <Property Name="ccsnSiteID" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
-          <Property Name="ccsnTimeID" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" p1:StoreGeneratedPattern="Computed" />
+          <Property Name="ccsnTimeID" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="ccsnRowGUID" Type="Guid" Nullable="false" />
           <NavigationProperty Name="tblCCArrangements" Relationship="GWdbModel.FK_tblCCArrangement_tblCCShipName" FromRole="tblCCShipName" ToRole="tblCCArrangement" />
         </EntityType>
@@ -728,7 +728,7 @@
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="GWdbModelStoreContainer" CdmEntityContainer="GWdbEntities">
           <EntitySetMapping Name="tblCCAccomodations">
             <EntityTypeMapping TypeName="GWdbModel.tblCCAccomodation">
@@ -954,7 +954,7 @@
     </edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
-  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
     <Connection>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />

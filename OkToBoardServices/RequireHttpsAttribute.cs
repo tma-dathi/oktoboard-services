@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Web;
@@ -17,13 +18,19 @@ namespace OkToBoardServices
                 throw new ArgumentNullException("actionContext");
             }
 
-            if (actionContext.Request.RequestUri.Scheme != Uri.UriSchemeHttps)
+            if (ConfigurationManager.AppSettings["IsProduction"] == "true")
             {
-                HandleNonHttpsRequest(actionContext);
-            }
-            else
-            {
-                base.OnAuthorization(actionContext);
+                Logger.log.Debug("Production mode");
+                if (actionContext.Request.RequestUri.Scheme != Uri.UriSchemeHttps)
+                {
+                    Logger.log.Debug("Uri.UriSchemeHttps: " + Uri.UriSchemeHttps);
+                    Logger.log.Debug("actionContext.Request.RequestUri.Scheme: " + actionContext.Request.RequestUri.Scheme);
+                    HandleNonHttpsRequest(actionContext);
+                }
+                else
+                {
+                    base.OnAuthorization(actionContext);
+                }
             }
         }
 

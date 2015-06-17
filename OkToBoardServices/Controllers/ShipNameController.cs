@@ -14,7 +14,7 @@ namespace OkToBoardServices.Controllers
     public class ShipNameShortcut
     {
         public Guid ShipNameId;
-        public string ShipName;        
+        public string ShipName;
     }
     public class ArrangementShortcut
     {
@@ -48,8 +48,8 @@ namespace OkToBoardServices.Controllers
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
             }
             var items = tblccshipname.tblCCArrangements.Select(
-                x => new ArrangementShortcut 
-                { 
+                x => new ArrangementShortcut
+                {
                     ETADate = x.ccarETADate
                 }).AsEnumerable();
             return items;
