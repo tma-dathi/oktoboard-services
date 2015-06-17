@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="2997c87d24984d5a84921f7ce2818025" Name="Diagram1">
+      <Diagram DiagramId="d97f94eed6d0452cadc457039e538c37" Name="Diagram1">
         <EntityTypeShape EntityType="GWdbModel.tblCCAccomodation" Width="1.5" PointX="7.5" PointY="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="GWdbModel.tblCCArrangement" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
         <EntityTypeShape EntityType="GWdbModel.tblCCCompany" Width="1.5" PointX="9.75" PointY="2" IsExpanded="true" />
