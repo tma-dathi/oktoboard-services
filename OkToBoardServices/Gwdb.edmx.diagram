@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e307dd93d90a41b7810ae355aa9f27ed" Name="Diagram1">
+        <EntityTypeShape EntityType="GWdbModel.tblCCAccomodation" Width="1.5" PointX="7.5" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GWdbModel.tblCCArrangement" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="GWdbModel.tblCCCompany" Width="1.5" PointX="9.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="GWdbModel.tblCCDepartment" Width="1.5" PointX="12" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="GWdbModel.tblCCFlight" Width="1.5" PointX="7.5" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="GWdbModel.tblCCNationality" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GWdbModel.tblCCPersonnel" Width="1.5" PointX="5.25" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="GWdbModel.tblCCPickup" Width="1.5" PointX="7.5" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GWdbModel.tblCCShipName" Width="1.5" PointX="0.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GWdbModel.tblCCUser" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GWdbModel.tblCCUserCompanyAccess" Width="1.5" PointX="12" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GWdbModel.tlkpCountryAirport" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GWdbModel.tlkpType" Width="1.5" PointX="9.75" PointY="5.75" IsExpanded="true" />
+        <AssociationConnector Association="GWdbModel.FK_tblCCAccomodation_tblCCPersonnel" ManuallyRouted="false" />
+        <AssociationConnector Association="GWdbModel.FK_tblCCArrangement_tblCCShipName" ManuallyRouted="false" />
+        <AssociationConnector Association="GWdbModel.FK_tblCCPersonnel_tblCCArrangement" ManuallyRouted="false" />
+        <AssociationConnector Association="GWdbModel.FK_tblCCDepartment_tblCCCompany" ManuallyRouted="false" />
+        <AssociationConnector Association="GWdbModel.FK_tblCCUserCompanyAccess_tblCCCompany" ManuallyRouted="false" />
+        <AssociationConnector Association="GWdbModel.FK_tblCCFlight_tblCCPersonnel" ManuallyRouted="false" />
+        <AssociationConnector Association="GWdbModel.FK_tblCCPickup_tblCCPersonnel" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
