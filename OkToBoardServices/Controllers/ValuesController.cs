@@ -7,6 +7,12 @@ using System.Web.Http;
 
 namespace OkToBoardServices.Controllers
 {
+    public class Data
+    {
+        public string name;
+        public string address;
+    }
+
     public class ValuesController : ApiController
     {
         // GET api/values
@@ -22,8 +28,9 @@ namespace OkToBoardServices.Controllers
         }
 
         // POST api/values
-        public void Post([FromBody]string value)
+        public void Post([FromBody]Data value)
         {
+            Logger.log.Debug(String.Format("Post data: Name is {0}. Address at {1}", value.name, value.address));
         }
 
         // PUT api/values/5

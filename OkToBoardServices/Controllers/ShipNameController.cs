@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Web;
 using System.Web.Http;
 
@@ -53,6 +57,30 @@ namespace OkToBoardServices.Controllers
                     ETADate = x.ccarETADate
                 }).AsEnumerable();
             return items;
+        }
+
+        private void CopyStream(Stream input, Stream output)
+        {
+            input.CopyTo(output);
+        }
+
+        public string PostImage()
+        {
+            try
+            {
+                Stream input = HttpContext.Current.Request.InputStream;
+                string path = @"C:\inetpub\wwwroot\OkToBoardServices\chupoke.jpeg";
+                using (FileStream output = File.OpenWrite(path))
+                {
+                    CopyStream(input, output);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.log.Debug(ex);
+                throw;
+            }
+            return "ok";
         }
 
         // NOT IN USE FOR NOW
