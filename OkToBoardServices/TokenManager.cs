@@ -13,7 +13,7 @@ namespace OkToBoardServices
         public static bool ValidateToken(string token)
         {
             var key = ConfigurationManager.AppSettings["TokenKey"];
-            var bytes = new UnicodeEncoding().GetBytes(key);
+            var bytes = Encoding.UTF8.GetBytes(key);
             var hashed = new SHA512Managed().ComputeHash(bytes);
             var serverToken = hashed.Aggregate<byte, string>("", (s, b) => s += string.Format("{0:x2}", b));            
             return token == serverToken;

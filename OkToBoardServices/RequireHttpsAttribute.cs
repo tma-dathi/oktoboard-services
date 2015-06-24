@@ -18,25 +18,36 @@ namespace OkToBoardServices
                 throw new ArgumentNullException("actionContext");
             }
 
-            var token = actionContext.Request.Headers.Authorization.ToString();
-            if (!TokenManager.ValidateToken(token))
+            var header_authorizer = actionContext.Request.Headers.Authorization;
+            string token = "";
+            if (header_authorizer == null)
             {
-                Logger.log.Debug(String.Format("Token ({0}) is not valid.", token));
-                HandleNonAuthenRequest(actionContext);
+                Logger.log.Debug(String.Format("There is no token."));
+                HandleNonAuthenRequest(actionContext, "Unauthorized: There is no token");
             }
             else
             {
-                if (ConfigurationManager.AppSettings["IsProduction"] == "true")
+                token = header_authorizer.ToString();
+                Logger.log.Info(String.Format("Token ({0})", token));
+                if (!TokenManager.ValidateToken(token))
                 {
-                    Logger.log.Debug("Production mode");
-                    if (actionContext.Request.RequestUri.Scheme != Uri.UriSchemeHttps)
+                    Logger.log.Debug(String.Format("Token ({0}) is not valid.", token));
+                    HandleNonAuthenRequest(actionContext, "Unauthorized: Token is not valid");
+                }
+                else
+                {
+                    if (ConfigurationManager.AppSettings["IsProduction"] == "true")
                     {
-                        Logger.log.Debug("Uri.UriSchemeHttps: " + Uri.UriSchemeHttps);
-                        HandleNonHttpsRequest(actionContext);
-                    }
-                    else
-                    {
-                        base.OnAuthorization(actionContext);
+                        Logger.log.Debug("Production mode");
+                        if (actionContext.Request.RequestUri.Scheme != Uri.UriSchemeHttps)
+                        {
+                            Logger.log.Debug("Uri.UriSchemeHttps: " + Uri.UriSchemeHttps);
+                            HandleNonHttpsRequest(actionContext);
+                        }
+                        else
+                        {
+                            base.OnAuthorization(actionContext);
+                        }
                     }
                 }
             }
@@ -48,10 +59,10 @@ namespace OkToBoardServices
             actionContext.Response.ReasonPhrase = "SSL Required";
         }
 
-        protected virtual void HandleNonAuthenRequest(HttpActionContext actionContext)
+        protected virtual void HandleNonAuthenRequest(HttpActionContext actionContext, string message)
         {
             actionContext.Response = new HttpResponseMessage(System.Net.HttpStatusCode.Unauthorized);
-            actionContext.Response.ReasonPhrase = "Unauthorized";
+            actionContext.Response.ReasonPhrase = message;
         }
     }
 }
