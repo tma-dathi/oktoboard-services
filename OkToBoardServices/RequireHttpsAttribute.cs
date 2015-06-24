@@ -18,18 +18,26 @@ namespace OkToBoardServices
                 throw new ArgumentNullException("actionContext");
             }
 
-            if (ConfigurationManager.AppSettings["IsProduction"] == "true")
+            var token = actionContext.Request.Headers.Authorization.ToString();
+            if (!TokenManager.ValidateToken(token))
             {
-                Logger.log.Debug("Production mode");
-                if (actionContext.Request.RequestUri.Scheme != Uri.UriSchemeHttps)
+                Logger.log.Debug(String.Format("Token ({0}) is not valid.", token));
+                HandleNonAuthenRequest(actionContext);
+            }
+            else
+            {
+                if (ConfigurationManager.AppSettings["IsProduction"] == "true")
                 {
-                    Logger.log.Debug("Uri.UriSchemeHttps: " + Uri.UriSchemeHttps);
-                    Logger.log.Debug("actionContext.Request.RequestUri.Scheme: " + actionContext.Request.RequestUri.Scheme);
-                    HandleNonHttpsRequest(actionContext);
-                }
-                else
-                {
-                    base.OnAuthorization(actionContext);
+                    Logger.log.Debug("Production mode");
+                    if (actionContext.Request.RequestUri.Scheme != Uri.UriSchemeHttps)
+                    {
+                        Logger.log.Debug("Uri.UriSchemeHttps: " + Uri.UriSchemeHttps);
+                        HandleNonHttpsRequest(actionContext);
+                    }
+                    else
+                    {
+                        base.OnAuthorization(actionContext);
+                    }
                 }
             }
         }
@@ -38,6 +46,12 @@ namespace OkToBoardServices
         {
             actionContext.Response = new HttpResponseMessage(System.Net.HttpStatusCode.Forbidden);
             actionContext.Response.ReasonPhrase = "SSL Required";
+        }
+
+        protected virtual void HandleNonAuthenRequest(HttpActionContext actionContext)
+        {
+            actionContext.Response = new HttpResponseMessage(System.Net.HttpStatusCode.Unauthorized);
+            actionContext.Response.ReasonPhrase = "Unauthorized";
         }
     }
 }

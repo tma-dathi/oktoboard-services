@@ -194,6 +194,7 @@
     <Compile Include="tlkpType.cs">
       <DependentUpon>Gwdb.tt</DependentUpon>
     </Compile>
+    <Compile Include="TokenManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
