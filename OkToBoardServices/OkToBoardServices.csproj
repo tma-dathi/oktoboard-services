@@ -131,9 +131,11 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ETAController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ShipNameController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Controllers\VesselController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -153,6 +155,14 @@
       <DependentUpon>Gwdb.edmx</DependentUpon>
     </Compile>
     <Compile Include="Logger.cs" />
+    <Compile Include="Migrations\201506261104120_Initial.cs" />
+    <Compile Include="Migrations\201506261104120_Initial.Designer.cs">
+      <DependentUpon>201506261104120_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\DBContext.cs" />
+    <Compile Include="Models\ETA.cs" />
+    <Compile Include="Models\Vessel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequireHttpsAttribute.cs" />
     <Compile Include="tblCCAccomodation.cs">
@@ -320,13 +330,17 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201506261104120_Initial.resx">
+      <DependentUpon>201506261104120_Initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

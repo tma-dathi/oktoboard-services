@@ -22,7 +22,7 @@ namespace OkToBoardServices.Controllers
     }
     public class ArrangementShortcut
     {
-        public DateTime ETADate;
+        public string ETADate;
     }
 
     [RequireHttps]
@@ -54,14 +54,9 @@ namespace OkToBoardServices.Controllers
             var items = tblccshipname.tblCCArrangements.Select(
                 x => new ArrangementShortcut
                 {
-                    ETADate = x.ccarETADate
+                    ETADate = String.Format("{0:d-MMM-yyyy}", x.ccarETADate)
                 }).AsEnumerable();
             return items;
-        }
-
-        private void CopyStream(Stream input, Stream output)
-        {
-            input.CopyTo(output);
         }
 
         public string PostImage()
@@ -72,7 +67,7 @@ namespace OkToBoardServices.Controllers
                 string path = @"C:\inetpub\wwwroot\OkToBoardServices\chupoke.jpeg";
                 using (FileStream output = File.OpenWrite(path))
                 {
-                    CopyStream(input, output);
+                    input.CopyTo(output);
                 }
             }
             catch (Exception ex)
