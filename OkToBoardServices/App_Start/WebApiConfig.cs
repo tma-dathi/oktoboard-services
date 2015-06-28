@@ -11,14 +11,20 @@ namespace OkToBoardServices
         {
             config.Routes.MapHttpRoute(
                 name: "CustomApi",
+                routeTemplate: "api/shipname",
+                defaults: new { controller = "Vessel" }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "CustomApi1",
                 routeTemplate: "api/GetEtaByShip/{id}",
-                defaults: new { controller = "ShipName", action = "GetEtaByShip", id = RouteParameter.Optional }
+                defaults: new { controller = "Vessel", action = "GetEtaByShip", id = RouteParameter.Optional }
             );
 
             config.Routes.MapHttpRoute(
                 name: "ImageApi",
                 routeTemplate: "api/postimage/{id}",
-                defaults: new { controller = "ShipName", action = "PostImage", id = RouteParameter.Optional }
+                defaults: new { controller = "Vessel", action = "PostImage", id = RouteParameter.Optional }
             );
 
             config.Routes.MapHttpRoute(

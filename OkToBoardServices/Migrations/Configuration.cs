@@ -17,21 +17,30 @@ namespace OkToBoardServices.Migrations
         {
             //  This method will be called after migrating to the latest version.
 
+            var vesselId_1 = Guid.NewGuid();
+            var vesselId_2 = Guid.NewGuid();
+            var vesselId_3 = Guid.NewGuid();
+
             context.Vessels.AddOrUpdate(
                 v => v.Id,
-                new Vessel { Name = "Nobita" },
-                new Vessel { Name = "Xuka" },
-                new Vessel { Name = "Chaien" }
+                new Vessel { Id = vesselId_1, Name = "Nobita" },
+                new Vessel { Id = vesselId_2, Name = "Xuka" },
+                new Vessel { Id = vesselId_3, Name = "Chaien" }
             );
             context.SaveChanges();
 
-            context.ETAs.AddOrUpdate(
-                p => p.Id,
-                new ETA { Value = DateTime.Today, VesselId = 1 },
-                new ETA { Value = DateTime.Today.AddDays(5), VesselId = 1 },
-                new ETA { Value = DateTime.Today.AddDays(15), VesselId = 2 },
-                new ETA { Value = DateTime.Today.AddDays(1), VesselId = 3 }
+            var arrangementId_1 = Guid.NewGuid();
+            var arrangementId_2 = Guid.NewGuid();
+            var arrangementId_3 = Guid.NewGuid();
+            var arrangementId_4 = Guid.NewGuid();
+            context.Arrangements.AddOrUpdate(
+                v => v.Id,
+                new Arrangement { Id = arrangementId_1, VesselId = vesselId_1, ETADate = DateTime.Today },
+                new Arrangement { Id = arrangementId_2, VesselId = vesselId_1, ETADate = DateTime.Today.AddDays(5) },
+                new Arrangement { Id = arrangementId_3, VesselId = vesselId_2, ETADate = DateTime.Today },
+                new Arrangement { Id = arrangementId_4, VesselId = vesselId_3, ETADate = DateTime.Today.AddDays(5) }
             );
+            context.SaveChanges();
         }
     }
 }

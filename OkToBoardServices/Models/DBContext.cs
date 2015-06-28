@@ -10,6 +10,6 @@ namespace OkToBoardServices.Models
     {
         public DBContext() : base("name=OTBService") { }
         public DbSet<Vessel> Vessels { get; set; }
-        public DbSet<ETA> ETAs { get; set; }
+        public DbSet<Arrangement> Arrangements { get; set; }
     }
 }

@@ -9,21 +9,78 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using OkToBoardServices.Models;
+using System.IO;
 
 namespace OkToBoardServices.Controllers
 {
+    public class VesselViewModel
+    {
+        public Guid Id;
+        public string Name;
+    }
+
+    public class ArrangementViewModel
+    {
+        public string ETADate;
+    }
+
+    [RequireHttps]
     public class VesselController : ApiController
     {
         private DBContext db = new DBContext();
 
         // GET api/Vessel
-        public IEnumerable<Vessel> GetVessels()
+        public IEnumerable<VesselViewModel> GetVessels()
         {
-            return db.Vessels.AsEnumerable();
+            var items = db.Vessels.Select(
+               v => new VesselViewModel
+               {
+                   Id = v.Id,
+                   Name = v.Name.Trim()
+               }).AsEnumerable();
+            return items;
+            //return db.Vessels.AsEnumerable();
         }
 
+        // GET api/GetEtaByShip/ecb7f9a0-c5ec-43ed-bf70-059d88e5e663
+        public IEnumerable<ArrangementViewModel> GetEtaByShip(Guid id)
+        {
+            Vessel vessel = db.Vessels.Find(id);
+            if (vessel == null)
+            {
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
+            }
+            var items = vessel.Arrangements.Select(
+                x => new ArrangementViewModel
+                {
+                    ETADate = String.Format("{0:d-MMM-yyyy}", x.ETADate)
+                }).AsEnumerable();
+
+            return items;
+        }
+
+        public string PostImage()
+        {
+            try
+            {
+                Stream input = HttpContext.Current.Request.InputStream;
+                string path = @"C:\inetpub\wwwroot\OkToBoardServices\chupoke.jpeg";
+                using (FileStream output = File.OpenWrite(path))
+                {
+                    input.CopyTo(output);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.log.Debug(ex);
+                throw;
+            }
+            return "ok";
+        }
+
+        // NOT IN USE FOR NOW
         // GET api/Vessel/5
-        public Vessel GetVessel(int id)
+        public Vessel GetVessel(Guid id)
         {
             Vessel vessel = db.Vessels.Find(id);
             if (vessel == null)
@@ -34,8 +91,9 @@ namespace OkToBoardServices.Controllers
             return vessel;
         }
 
+        // NOT IN USE FOR NOW
         // PUT api/Vessel/5
-        public HttpResponseMessage PutVessel(int id, Vessel vessel)
+        public HttpResponseMessage PutVessel(Guid id, Vessel vessel)
         {
             if (ModelState.IsValid && id == vessel.Id)
             {
@@ -58,6 +116,7 @@ namespace OkToBoardServices.Controllers
             }
         }
 
+        // NOT IN USE FOR NOW
         // POST api/Vessel
         public HttpResponseMessage PostVessel(Vessel vessel)
         {
@@ -76,8 +135,9 @@ namespace OkToBoardServices.Controllers
             }
         }
 
+        // NOT IN USE FOR NOW
         // DELETE api/Vessel/5
-        public HttpResponseMessage DeleteVessel(int id)
+        public HttpResponseMessage DeleteVessel(Guid id)
         {
             Vessel vessel = db.Vessels.Find(id);
             if (vessel == null)
