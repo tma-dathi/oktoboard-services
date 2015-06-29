@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Data;
+using System.Data.Entity;
+using System.Data.Entity.Migrations;
+using DatabaseSynchronizer.Models;
 
 namespace Synchronizer
 {
@@ -13,6 +16,8 @@ namespace Synchronizer
     {
         static void Main(string[] args)
         {
+            PopulateDatabase();
+
             Console.WriteLine("starting bulk data...");
             var srcConnection = ConfigurationManager.ConnectionStrings["GWdb"].ConnectionString;
             var destConnection = ConfigurationManager.ConnectionStrings["OTBService"].ConnectionString;
@@ -21,7 +26,14 @@ namespace Synchronizer
             PerformBulkCopyToArrangements(srcConnection, destConnection);
 
             Console.WriteLine("done");
-            Console.ReadLine();
+            //Console.ReadLine();
+        }
+
+        private static void PopulateDatabase()
+        {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<DBContext, DatabaseSynchronizer.Migrations.Configuration>());
+            var db = new DBContext();
+            db.Database.Initialize(true);
         }
         
         private static void PerformBulkCopyToVessels(string srcConnection, string destConnection)
