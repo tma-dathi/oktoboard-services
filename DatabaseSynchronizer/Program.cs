@@ -21,7 +21,7 @@ namespace Synchronizer
             PerformBulkCopyToArrangements(srcConnection, destConnection);
 
             Console.WriteLine("done");
-            Console.ReadLine();
+            //Console.ReadLine();
         }
         
         private static void PerformBulkCopyToVessels(string srcConnection, string destConnection)

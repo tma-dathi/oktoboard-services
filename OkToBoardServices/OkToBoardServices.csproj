@@ -154,11 +154,6 @@
       <DependentUpon>Gwdb.edmx</DependentUpon>
     </Compile>
     <Compile Include="Logger.cs" />
-    <Compile Include="Migrations\201506280644007_Initial.cs" />
-    <Compile Include="Migrations\201506280644007_Initial.Designer.cs">
-      <DependentUpon>201506280644007_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Arrangement.cs" />
     <Compile Include="Models\DBContext.cs" />
     <Compile Include="Models\Vessel.cs" />
@@ -332,11 +327,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201506280644007_Initial.resx">
-      <DependentUpon>201506280644007_Initial.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
