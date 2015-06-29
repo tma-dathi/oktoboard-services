@@ -28,7 +28,6 @@ namespace OkToBoardServices
             else
             {
                 token = header_authorizer.ToString();
-                Logger.log.Info(String.Format("Token ({0})", token));
                 if (!TokenManager.ValidateToken(token))
                 {
                     Logger.log.Debug(String.Format("Token ({0}) is not valid.", token));

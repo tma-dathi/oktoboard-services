@@ -32,12 +32,16 @@ namespace OkToBoardServices.Controllers
         // GET api/Vessel
         public IEnumerable<VesselViewModel> GetVessels()
         {
+            Logger.log.Info("Valid token, here is GetVessels().");
             var items = db.Vessels.Select(
                v => new VesselViewModel
                {
                    Id = v.Id,
                    Name = v.Name.Trim()
                }).AsEnumerable();
+            Logger.log.Debug(String.Format("Number of vessels: {0}", items.Count()));
+            Logger.log.Debug(String.Format("Id: {0}", items.First().Id));
+            Logger.log.Debug(String.Format("Name: {0}", items.First().Name));
             return items;
             //return db.Vessels.AsEnumerable();
         }
@@ -45,9 +49,11 @@ namespace OkToBoardServices.Controllers
         // GET api/GetEtaByShip/ecb7f9a0-c5ec-43ed-bf70-059d88e5e663
         public IEnumerable<ArrangementViewModel> GetEtaByShip(Guid id)
         {
+            Logger.log.Info("Valid token, here is GetEtaByShip(Guid id).");
             Vessel vessel = db.Vessels.Find(id);
             if (vessel == null)
             {
+                Logger.log.Info("Vessel not found.");
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
             }
             var items = vessel.Arrangements.Select(
