@@ -38,7 +38,7 @@ namespace OkToBoardServices.Controllers
                {
                    Id = v.Id,
                    Name = v.Name.Trim()
-               }).AsEnumerable();
+               }).OrderBy(c => c.Name).AsEnumerable();
             Logger.log.Debug(String.Format("Number of vessels: {0}", items.Count()));
             Logger.log.Debug(String.Format("Id: {0}", items.First().Id));
             Logger.log.Debug(String.Format("Name: {0}", items.First().Name));
@@ -47,6 +47,7 @@ namespace OkToBoardServices.Controllers
         }
 
         // GET api/GetEtaByShip/ecb7f9a0-c5ec-43ed-bf70-059d88e5e663
+        [HttpGet]
         public IEnumerable<ArrangementViewModel> GetEtaByShip(Guid id)
         {
             Logger.log.Info("Valid token, here is GetEtaByShip(Guid id).");
@@ -63,25 +64,6 @@ namespace OkToBoardServices.Controllers
                 }).AsEnumerable();
 
             return items;
-        }
-
-        public string PostImage()
-        {
-            try
-            {
-                Stream input = HttpContext.Current.Request.InputStream;
-                string path = @"C:\inetpub\wwwroot\OkToBoardServices\chupoke.jpeg";
-                using (FileStream output = File.OpenWrite(path))
-                {
-                    input.CopyTo(output);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.log.Debug(ex);
-                throw;
-            }
-            return "ok";
         }
 
         // NOT IN USE FOR NOW

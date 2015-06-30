@@ -22,12 +22,6 @@ namespace OkToBoardServices
             );
 
             config.Routes.MapHttpRoute(
-                name: "ImageApi",
-                routeTemplate: "api/postimage/{id}",
-                defaults: new { controller = "Vessel", action = "PostImage", id = RouteParameter.Optional }
-            );
-
-            config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
