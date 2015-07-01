@@ -18,6 +18,8 @@ namespace OkToBoardServices
                 throw new ArgumentNullException("actionContext");
             }
 
+            Logger.log.Debug(String.Format("Go to service."));
+
             var header_authorizer = actionContext.Request.Headers.Authorization;
             string token = "";
             if (header_authorizer == null)

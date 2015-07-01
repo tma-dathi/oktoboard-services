@@ -15,13 +15,12 @@ namespace Synchronizer
     class Program
     {
         static void Main(string[] args)
-        {
-            PopulateDatabase();
-
+        {            
             Console.WriteLine("starting bulk data...");
             var srcConnection = ConfigurationManager.ConnectionStrings["GWdb"].ConnectionString;
             var destConnection = ConfigurationManager.ConnectionStrings["OTBService"].ConnectionString;
 
+            PopulateDatabase();
             PerformBulkCopyToVessels(srcConnection, destConnection);
             PerformBulkCopyToArrangements(srcConnection, destConnection);
 
@@ -38,48 +37,32 @@ namespace Synchronizer
         
         private static void PerformBulkCopyToVessels(string srcConnection, string destConnection)
         {
-            string not_in = String.Empty;
-            using (SqlConnection destination = new SqlConnection(destConnection))
-            {
-                destination.Open();
-                SqlCommand destGetListIDs = new SqlCommand("SELECT Id FROM Vessels", destination);
-                SqlDataReader reader = destGetListIDs.ExecuteReader();
-                not_in = PopulateStringNotIn(reader);
-            }
-
             using (SqlConnection source = new SqlConnection(srcConnection))
             {
-                var cmd = String.Format("SELECT ccsnShipNameID, ccsnName FROM tblCCShipName");
-                if (!String.IsNullOrEmpty(not_in)) 
-                {
-                    cmd = String.Format("SELECT ccsnShipNameID, ccsnName FROM tblCCShipName WHERE ccsnShipNameID NOT IN {0}", not_in);
-                }
+                var cmd = @"SELECT ccarShipNameID, ccsnName FROM tblCCArrangement 
+                            INNER JOIN tblCCShipName ON ccsnShipNameID = ccarShipNameID 
+                            WHERE ccarIsActive=1 AND ccsnIsActive=1 
+                            GROUP BY ccarShipNameID, ccsnName";
                 SqlCommand myCommand = new SqlCommand(cmd, source);
                 source.Open();
+
                 SqlDataReader reader = myCommand.ExecuteReader();
                 // open the destination data
                 using (SqlConnection destination = new SqlConnection(destConnection))
                 {
                     destination.Open();
 
-                    // Perform an initial count on the destination table.
-                    SqlCommand commandRowCount = new SqlCommand("SELECT COUNT(*) FROM Vessels", destination);
-                    long countStart = System.Convert.ToInt32(commandRowCount.ExecuteScalar());
-                    Console.WriteLine("Starting row count = {0}", countStart);
+                    // Empty the destination table. 
+                    SqlCommand deleteHeader = new SqlCommand("DELETE FROM Vessels;", destination);
+                    deleteHeader.ExecuteNonQuery();
 
                     using (SqlBulkCopy bulkCopy = new SqlBulkCopy(destination.ConnectionString))
                     {
-                        bulkCopy.ColumnMappings.Add("ccsnShipNameID", "Id");
+                        bulkCopy.ColumnMappings.Add("ccarShipNameID", "Id");
                         bulkCopy.ColumnMappings.Add("ccsnName", "Name");
                         bulkCopy.DestinationTableName = "Vessels";
                         bulkCopy.WriteToServer(reader);
                     }
-
-                    // Perform a final count on the destination 
-                    // table to see how many rows were added.
-                    long countEnd = System.Convert.ToInt32(commandRowCount.ExecuteScalar());
-                    Console.WriteLine("Ending row count = {0}", countEnd);
-                    Console.WriteLine("{0} rows were added.", countEnd - countStart);
                 }
                 reader.Close();
             }           
@@ -87,34 +70,23 @@ namespace Synchronizer
 
         private static void PerformBulkCopyToArrangements(string srcConnection, string destConnection)
         {
-            string not_in = String.Empty;
-            using (SqlConnection destination = new SqlConnection(destConnection))
-            {
-                destination.Open();
-                SqlCommand destGetListIDs = new SqlCommand("SELECT Id FROM Arrangements", destination);
-                SqlDataReader reader = destGetListIDs.ExecuteReader();
-                not_in = PopulateStringNotIn(reader);
-            }
-
             using (SqlConnection source = new SqlConnection(srcConnection))
             {
-                var cmd = String.Format("SELECT ccarArrangeID, ccarShipNameID, ccarETADate FROM tblCCArrangement");
-                if (!String.IsNullOrEmpty(not_in))
-                {
-                    cmd = String.Format("SELECT ccarArrangeID, ccarShipNameID, ccarETADate FROM tblCCArrangement WHERE ccarArrangeID NOT IN {0}", not_in);
-                }
+                var cmd = @"SELECT ccarArrangeID, ccarShipNameID, ccarETADate FROM tblCCArrangement 
+                            INNER JOIN dbo.tblCCShipName ON ccsnShipNameID = ccarShipNameID 
+                            WHERE ccarIsActive=1 AND ccsnIsActive=1";
                 SqlCommand myCommand = new SqlCommand(cmd, source);
                 source.Open();
                 SqlDataReader reader = myCommand.ExecuteReader();
+
                 // open the destination data
                 using (SqlConnection destination = new SqlConnection(destConnection))
                 {
                     destination.Open();
 
-                    // Perform an initial count on the destination table.
-                    SqlCommand commandRowCount = new SqlCommand("SELECT COUNT(*) FROM Arrangements", destination);
-                    long countStart = System.Convert.ToInt32(commandRowCount.ExecuteScalar());
-                    Console.WriteLine("Starting row count = {0}", countStart);
+                    // Empty the destination table. 
+                    SqlCommand deleteHeader = new SqlCommand("DELETE FROM Arrangements;", destination);
+                    deleteHeader.ExecuteNonQuery();
 
                     using (SqlBulkCopy bulkCopy = new SqlBulkCopy(destination.ConnectionString))
                     {
@@ -124,17 +96,12 @@ namespace Synchronizer
                         bulkCopy.DestinationTableName = "Arrangements";
                         bulkCopy.WriteToServer(reader);
                     }
-
-                    // Perform a final count on the destination 
-                    // table to see how many rows were added.
-                    long countEnd = System.Convert.ToInt32(commandRowCount.ExecuteScalar());
-                    Console.WriteLine("Ending row count = {0}", countEnd);
-                    Console.WriteLine("{0} rows were added.", countEnd - countStart);
                 }
                 reader.Close();
             }
         }
 
+        // NOT IN USE
         private static List<string> GetListId(SqlDataReader reader)
         {
             List<string> listIDs = new List<string>();
@@ -148,6 +115,7 @@ namespace Synchronizer
             return listIDs;
         }
 
+        // NOT IN USE
         private static string PopulateStringNotIn(SqlDataReader reader)
         {
             var listIDs = GetListId(reader);

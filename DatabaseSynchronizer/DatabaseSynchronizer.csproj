@@ -71,9 +71,14 @@
     <Compile Include="Migrations\201506280800275_Initial.Designer.cs">
       <DependentUpon>201506280800275_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201507011250510_AddTableReport.cs" />
+    <Compile Include="Migrations\201507011250510_AddTableReport.Designer.cs">
+      <DependentUpon>201507011250510_AddTableReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Arrangement.cs" />
     <Compile Include="Models\DBContext.cs" />
+    <Compile Include="Models\Report.cs" />
     <Compile Include="Models\Vessel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -90,6 +95,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201506280800275_Initial.resx">
       <DependentUpon>201506280800275_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507011250510_AddTableReport.resx">
+      <DependentUpon>201507011250510_AddTableReport.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

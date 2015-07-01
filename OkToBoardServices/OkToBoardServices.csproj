@@ -158,6 +158,7 @@
     <Compile Include="Logger.cs" />
     <Compile Include="Models\Arrangement.cs" />
     <Compile Include="Models\DBContext.cs" />
+    <Compile Include="Models\Report.cs" />
     <Compile Include="Models\Vessel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequireHttpsAttribute.cs" />
