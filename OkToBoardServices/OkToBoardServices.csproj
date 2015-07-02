@@ -140,67 +140,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Gwdb.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Gwdb.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Gwdb.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Gwdb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Gwdb.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Gwdb.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Logger.cs" />
     <Compile Include="Models\Arrangement.cs" />
     <Compile Include="Models\DBContext.cs" />
+    <Compile Include="Models\GenerateReport.cs" />
     <Compile Include="Models\Report.cs" />
     <Compile Include="Models\Vessel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequireHttpsAttribute.cs" />
-    <Compile Include="tblCCAccomodation.cs">
-      <DependentUpon>Gwdb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblCCArrangement.cs">
-      <DependentUpon>Gwdb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblCCCompany.cs">
-      <DependentUpon>Gwdb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblCCDepartment.cs">
-      <DependentUpon>Gwdb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblCCFlight.cs">
-      <DependentUpon>Gwdb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblCCNationality.cs">
-      <DependentUpon>Gwdb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblCCPersonnel.cs">
-      <DependentUpon>Gwdb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblCCPickup.cs">
-      <DependentUpon>Gwdb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblCCShipName.cs">
-      <DependentUpon>Gwdb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblCCUser.cs">
-      <DependentUpon>Gwdb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblCCUserCompanyAccess.cs">
-      <DependentUpon>Gwdb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tlkpCountryAirport.cs">
-      <DependentUpon>Gwdb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tlkpType.cs">
-      <DependentUpon>Gwdb.tt</DependentUpon>
-    </Compile>
     <Compile Include="TokenManager.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -260,23 +207,6 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <EntityDeploy Include="Gwdb.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Gwdb.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Gwdb.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Gwdb.edmx</DependentUpon>
-      <LastGenOutput>Gwdb.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Gwdb.edmx.diagram">
-      <DependentUpon>Gwdb.edmx</DependentUpon>
-    </Content>
-    <Content Include="Gwdb.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Gwdb.edmx</DependentUpon>
-      <LastGenOutput>Gwdb.cs</LastGenOutput>
-    </Content>
     <Content Include="log4net.config" />
     <None Include="Properties\PublishProfiles\To228.pubxml" />
     <None Include="Properties\PublishProfiles\ToLocal.pubxml" />

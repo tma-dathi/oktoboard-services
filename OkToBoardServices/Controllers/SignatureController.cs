@@ -38,16 +38,16 @@ namespace OkToBoardServices.Controllers
             try
             {
                 Stream input = HttpContext.Current.Request.InputStream;
-                var userId = HttpContext.Current.Request.Headers.Get("otb-userid");
+                var userId = int.Parse(HttpContext.Current.Request.Headers.Get("otb-userid"));
                 var filename = HttpContext.Current.Request.Headers.Get("otb-filename");
                 string dir = HttpContext.Current.Server.MapPath(String.Format(@"~\Images\Signatures\{0}", userId));
                 string path = String.Format(@"{0}\{1}", dir, filename);
-                var action = HttpContext.Current.Request.Headers.Get("action");
+                var action = int.Parse(HttpContext.Current.Request.Headers.Get("action"));
                 foreach (var h in HttpContext.Current.Request.Headers.AllKeys)
                 {
                     Logger.log.Debug(h);
                 }
-                if (int.Parse(action) == 1)
+                if (action == 1)
                 {
                     if (filename != null)
                     {
@@ -57,13 +57,28 @@ namespace OkToBoardServices.Controllers
                             input.CopyTo(output);
                         }
                     }
-                    var items = new Report { Id = int.Parse(userId), Image = path };
+                    var items = new Report { Id = userId, Image = path };
                     db.Reports.Add(items);
                     db.SaveChanges();
+                    Logger.log.Debug("Save successful");
                 }
-                if (int.Parse(action) == 2)
+                if (action == 2)
                 {
-                    
+                    if (File.Exists(dir))
+                    {
+                        File.Delete(dir);
+                    }
+                    Directory.CreateDirectory(dir);
+                    using (FileStream output = File.OpenWrite(path))
+                    {
+                        input.CopyTo(output);
+                    }
+                    var report = (from rp in db.Reports
+                                  where rp.Id == userId
+                                  select rp).First();
+                    report.Image = path;
+                    db.SaveChanges();
+                    Logger.log.Debug("Update image successful");
                 }
             }
             catch (Exception ex)

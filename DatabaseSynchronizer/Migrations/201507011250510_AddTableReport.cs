@@ -11,7 +11,7 @@ namespace DatabaseSynchronizer.Migrations
                 "dbo.Reports",
                 c => new
                     {
-                        Id = c.Int(nullable: false, identity: true),
+                        Id = c.Int(nullable: false),
                         Image = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
