@@ -27,24 +27,63 @@ namespace OkToBoardServices.Controllers
         {
             Logger.log.Info("begin");
             var data = HttpContext.Current.Request.Headers.Get("otb-data-report");
+            if (ConfigurationManager.AppSettings["UseFakeData"].ToLower() == "true")
+            {
+                data = @"{'id':1,
+                      'first_name':'test',
+                      'last_name':'Nobita',
+                      'crew_id':'12',
+                      'gender':false,
+                      'position':'OK',
+                      'birthday':'2015-07-04T00:00:00.000Z',
+                      'birthday_place':null,
+                      'passport':'OK',
+                      'country_id':8,
+                      'time_arrive':'2015-07-04T00:00:00.000Z',
+                      'flight_code':'ae',
+                      'flight_number':'1212',
+                      'state_id':4,
+                      'user_id':3,
+                      'batch_id':1,
+                      'remark':null,
+                      'created_at':'2015-07-04T04:49:48.774Z',
+                      'updated_at':'2015-07-13T08:04:08.874Z',
+                      'origin':'exq',
+                      'expiry_date':null,
+                      'user_name':'test@tma.com.vn',
+                      'vessel_name':'AMSTERDAM',
+                      'eta_time':'2014-02-25',
+                      'ship_id':'444016b8-cdfd-4620-a9cf-778e6b484349',
+                      'country':'Anguilla',
+                      'phone_number':null,
+                      'report_type':'doc',
+                      'user_admin_id':1}";
+            }
+            Logger.log.Debug(data);
             var obj = JsonConvert.DeserializeObject<GenerateReport>(data);
             Logger.log.Debug("=========" + data + "=================");
             Logger.log.Debug("=========" + obj + "=================");
             var repor_type = obj.report_type;
+            Logger.log.Debug("repor_type: " + repor_type);
+            Vessel vessel = db.Vessels.Find(new Guid(obj.ship_id));
+            Logger.log.Debug("Vessel: " + vessel.ToString());
+            var etd = vessel.Arrangements.Where(x => x.ETADate == Convert.ToDateTime(obj.eta_time))
+                                         .Select(x => String.Format("{dd MMMM yyyy}", x.ETDDate)).FirstOrDefault();
+            Logger.log.Debug("ETD: " + etd);
+
             var fileName = "Report_" + DateTime.Now.ToString("yyyyMMdd_hhmmss") + "_" + obj.id + "." + repor_type;
-            string dir = HttpContext.Current.Server.MapPath(String.Format(@"~\GenerateReport\"));
+            string dir = EnsurePathExist(HttpContext.Current.Server.MapPath(@"~\GenerateReport"));
             string filePath = String.Format(@"{0}\{1}", dir, fileName);
             string  imagePath = (from rp in db.Reports
                                  where rp.Id == obj.user_admin_id
                                 select rp.Image).FirstOrDefault();
+            Logger.log.Debug("===========get url signature from database================");
             string vlGender = obj.gender == "True" ? "Male" : "Female";
-            Logger.log.Debug("string time arrive:" + obj.time_arrive + "=> " + Convert.ToDateTime(obj.time_arrive).ToString("dd-MM-yyyy 'at' HH:mm"));
-            Logger.log.Debug("=========" + obj.user_admin_id + "=================");
             Logger.log.Debug("=========" + imagePath + "=================");
-            string txGender = obj.gender == "True" ? "his" : "here";
             var list = new List<GenerateReport>();
             var repportPath = ConfigurationManager.AppSettings["ReportPath"];
             var datasetName = ConfigurationManager.AppSettings["DatasetName"];
+            Logger.log.Debug("====Start add data to ===============");
             var listData = new GenerateReport
             {
                 first_name = obj.first_name,
@@ -55,21 +94,21 @@ namespace OkToBoardServices.Controllers
                 passport = obj.passport,
                 position = obj.position,
                 is_flight= obj.is_flight,
-                time_arrive = Convert.ToDateTime(obj.time_arrive).ToString("dd-MM-yyyy 'at' HH:mm"),
+                time_arrive = obj.time_arrive,
                 origin = obj.origin,
-                text_gender = txGender,
                 flight_code = obj.flight_code,
                 flight_number = obj.flight_number,
                 user_name = obj.user_name,
                 vessel_name = obj.vessel_name,
                 eta_time =  obj.eta_time,
                 country = obj.country,
-                created_at = Convert.ToDateTime(obj.created_at).ToString("dd MMMM yyyy"),
+                date_generate = DateTime.Now.ToString("dd MMMM yyyy"),
                 phone_number = obj.phone_number,
-                birthday = Convert.ToDateTime(obj.birthday).ToString("dd-MM-yyyy")
-                
+                birthday = Convert.ToDateTime(obj.birthday).ToString("dd-MM-yyyy"),
+                etd_time = etd
             };
             list.Add(listData);
+            Logger.log.Debug("====Add data succsess full ===============");
             Logger.log.Debug(String.Format("1."));
             var pr = new ReportParameter("rpt_img", "file:/" + imagePath, true);
             var report = new LocalReport();
@@ -159,5 +198,28 @@ namespace OkToBoardServices.Controllers
         public void Delete(int id)
         {
         }
+
+        private string EnsurePathExist(string path)
+        {
+            // Set to folder path we must ensure exists.
+            string outputPath = path;
+            try
+            {
+                // If the directory doesn't exist, create it.
+                if (!Directory.Exists(path))
+                {
+                    //WriteLog("Create folder: " + path);
+                    Directory.CreateDirectory(path);
+                }
+            }
+            catch (Exception)
+            {
+                // Set 'bin' folder if any exception
+                DirectoryInfo di = new DirectoryInfo(path);
+                outputPath = String.Format(@"{0}\bin", di.Parent.FullName);
+            }
+            //WriteLog("output file path: " + outputPath);
+            return outputPath;
+        }   
     }
 }

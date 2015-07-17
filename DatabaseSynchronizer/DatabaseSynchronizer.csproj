@@ -75,6 +75,10 @@
     <Compile Include="Migrations\201507011250510_AddTableReport.Designer.cs">
       <DependentUpon>201507011250510_AddTableReport.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201507150313492_AddETDToArrangement.cs" />
+    <Compile Include="Migrations\201507150313492_AddETDToArrangement.Designer.cs">
+      <DependentUpon>201507150313492_AddETDToArrangement.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Arrangement.cs" />
     <Compile Include="Models\DBContext.cs" />
@@ -98,6 +102,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201507011250510_AddTableReport.resx">
       <DependentUpon>201507011250510_AddTableReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507150313492_AddETDToArrangement.resx">
+      <DependentUpon>201507150313492_AddETDToArrangement.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

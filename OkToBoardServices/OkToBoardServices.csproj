@@ -270,10 +270,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="GenerateReport\" />
-    <Folder Include="Images\Signatures\" />
+    <Folder Include="Images\Signatures\abc\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Report\Report1.rdlc" />
+    <EmbeddedResource Include="Report\Report1.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
