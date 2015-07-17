@@ -8,7 +8,6 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
-using Microsoft.Reporting.WebForms;
 using OkToBoardServices.Models;
 using System.IO;
 
@@ -29,6 +28,19 @@ namespace OkToBoardServices.Controllers
     public class VesselController : ApiController
     {
         private DBContext db = new DBContext();
+
+        public object GetWholeVessels()
+        {
+            Logger.log.Info("Valid token, here is GetVessels().");
+            var items = db.Vessels.Select(
+               v => new
+               {
+                   Id = v.Id,
+                   Name = v.Name.Trim(),
+                   ETAs = v.Arrangements.Select(x => new { x.ETADate }).OrderBy(y => y.ETADate).AsEnumerable()
+               }).OrderBy(c => c.Name).AsEnumerable();
+            return items;
+        } 
 
         // GET api/Vessel
         public IEnumerable<VesselViewModel> GetVessels()
