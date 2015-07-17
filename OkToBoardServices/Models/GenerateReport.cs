@@ -36,6 +36,9 @@ namespace OkToBoardServices.Models
         public string eta_time { get; set; }
         public string country { get; set; }
         public string phone_number { get; set; }
+        public string date_generate { get; set; }
         public string text_gender { get; set; }
+        public string ship_id { get; set; }
+        public string etd_time { get; set; }
     }
 }
