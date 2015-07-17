@@ -13,6 +13,8 @@ namespace OkToBoardServices
     {
         public override void OnAuthorization(HttpActionContext actionContext)
         {
+            Logger.log.Debug(String.Format("Go to token ."));
+
             if (actionContext == null)
             {
                 throw new ArgumentNullException("actionContext");
