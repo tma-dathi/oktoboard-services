@@ -21,7 +21,7 @@ namespace OkToBoardServices.Controllers
 
     public class ArrangementViewModel
     {
-        public string ETADate;
+        public string ETADateTime;
     }
 
     [RequireHttps]
@@ -29,34 +29,50 @@ namespace OkToBoardServices.Controllers
     {
         private DBContext db = new DBContext();
 
-        public object GetWholeVessels()
+        // GET api/Vessel/{true/false}
+        public object GetVessels(bool isBulkData = false)
         {
             Logger.log.Info("Valid token, here is GetVessels().");
-            var items = db.Vessels.Select(
+            object items = null;
+            if (isBulkData)
+            {
+                items = GetWholeVessels();
+            }
+            else
+            {
+                items = db.Vessels.Select(
+                   v => new VesselViewModel
+                   {
+                       Id = v.Id,
+                       Name = v.Name.Trim()
+                   }).OrderBy(c => c.Name).AsEnumerable();
+            }
+            return items;
+        }
+
+        private object GetWholeVessels()
+        {
+            // query database and store in collection object (enumerable)
+            var enumerable = db.Vessels.Select(
                v => new
                {
                    Id = v.Id,
                    Name = v.Name.Trim(),
-                   ETAs = v.Arrangements.Select(x => new { x.ETADate }).OrderBy(y => y.ETADate).AsEnumerable()
+                   Arrangements = v.Arrangements
                }).OrderBy(c => c.Name).AsEnumerable();
-            return items;
-        } 
 
-        // GET api/Vessel
-        public IEnumerable<VesselViewModel> GetVessels()
-        {
-            Logger.log.Info("Valid token, here is GetVessels().");
-            var items = db.Vessels.Select(
-               v => new VesselViewModel
-               {
-                   Id = v.Id,
-                   Name = v.Name.Trim()
-               }).OrderBy(c => c.Name).AsEnumerable();
-            Logger.log.Debug(String.Format("Number of vessels: {0}", items.Count()));
-            Logger.log.Debug(String.Format("Id: {0}", items.First().Id));
-            Logger.log.Debug(String.Format("Name: {0}", items.First().Name));
+            // query on collection object
+            var items = enumerable.Select(vv => new
+            {
+                Id = vv.Id,
+                Name = vv.Name,
+                Arrangements = vv.Arrangements.Select(x => new 
+                {
+                    Id = x.Id,
+                    ETADateTime = PopulateDateTime(x.ETADate, x.ETATime) 
+                })
+            }).AsEnumerable();
             return items;
-            //return db.Vessels.AsEnumerable();
         }
 
         // GET api/GetEtaByShip/ecb7f9a0-c5ec-43ed-bf70-059d88e5e663
@@ -73,10 +89,19 @@ namespace OkToBoardServices.Controllers
             var items = vessel.Arrangements.Select(
                 x => new ArrangementViewModel
                 {
-                    ETADate = String.Format("{0:d-MMM-yyyy}", x.ETADate)
+                    ETADateTime = PopulateDateTime(x.ETADate, x.ETATime)
                 }).AsEnumerable();
 
             return items;
+        }
+
+        private string PopulateDateTime(DateTime date, DateTime time)
+        {
+            var result = DateTime.Now.ToString("d-MMM-yyyy HH:mm");
+            var d = String.Format("{0:d-MMM-yyyy}", date);
+            var t = String.Format("{0:HH:mm}", time);
+            result = String.Format("{0} {1}", d, t);
+            return result;
         }
 
         // NOT IN USE FOR NOW

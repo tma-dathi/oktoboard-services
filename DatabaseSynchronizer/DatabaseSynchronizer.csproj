@@ -79,6 +79,10 @@
     <Compile Include="Migrations\201507150313492_AddETDToArrangement.Designer.cs">
       <DependentUpon>201507150313492_AddETDToArrangement.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201507170753459_AddETATimeAndETDTimeToArrangement.cs" />
+    <Compile Include="Migrations\201507170753459_AddETATimeAndETDTimeToArrangement.Designer.cs">
+      <DependentUpon>201507170753459_AddETATimeAndETDTimeToArrangement.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Arrangement.cs" />
     <Compile Include="Models\DBContext.cs" />
@@ -105,6 +109,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201507150313492_AddETDToArrangement.resx">
       <DependentUpon>201507150313492_AddETDToArrangement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507170753459_AddETATimeAndETDTimeToArrangement.resx">
+      <DependentUpon>201507170753459_AddETATimeAndETDTimeToArrangement.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

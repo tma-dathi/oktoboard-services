@@ -68,7 +68,7 @@ namespace OkToBoardServices.Controllers
             Vessel vessel = db.Vessels.Find(new Guid(obj.ship_id));
             Logger.log.Debug("Vessel: " + vessel.ToString());
             var etd = vessel.Arrangements.Where(x => x.ETADate == Convert.ToDateTime(obj.eta_time))
-                                         .Select(x => String.Format("{dd MMMM yyyy}", x.ETDDate)).FirstOrDefault();
+                                         .Select(x => x.ETDDate).FirstOrDefault();
             Logger.log.Debug("ETD: " + etd);
 
             var fileName = "Report_" + DateTime.Now.ToString("yyyyMMdd_hhmmss") + "_" + obj.id + "." + repor_type;
@@ -105,7 +105,7 @@ namespace OkToBoardServices.Controllers
                 date_generate = DateTime.Now.ToString("dd MMMM yyyy"),
                 phone_number = obj.phone_number,
                 birthday = Convert.ToDateTime(obj.birthday).ToString("dd-MM-yyyy"),
-                etd_time = etd
+                etd_time = etd.ToString("dd MMMM yyyy")
             };
             list.Add(listData);
             Logger.log.Debug("====Add data succsess full ===============");

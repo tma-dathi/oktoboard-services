@@ -72,9 +72,10 @@ namespace Synchronizer
         {
             using (SqlConnection source = new SqlConnection(srcConnection))
             {
-                var cmd = @"SELECT ccarArrangeID, ccarShipNameID, ccarETADate, ccarETDDate FROM tblCCArrangement 
+                var cmd = @"SELECT ccarArrangeID, ccarShipNameID, ccarETADate, ccarETDDate, ccarETATime, ccarETDTime FROM tblCCArrangement 
                             INNER JOIN dbo.tblCCShipName ON ccsnShipNameID = ccarShipNameID 
-                            WHERE ccarIsActive=1 AND ccsnIsActive=1";
+                            WHERE ccarIsActive=1 AND ccsnIsActive=1 
+                            AND ccarETATime IS NOT NULL AND ccarETDTime IS NOT NULL";
                 SqlCommand myCommand = new SqlCommand(cmd, source);
                 source.Open();
                 SqlDataReader reader = myCommand.ExecuteReader();
@@ -94,6 +95,8 @@ namespace Synchronizer
                         bulkCopy.ColumnMappings.Add("ccarShipNameID", "VesselId");
                         bulkCopy.ColumnMappings.Add("ccarETADate", "ETADate");
                         bulkCopy.ColumnMappings.Add("ccarETDDate", "ETDDate");
+                        bulkCopy.ColumnMappings.Add("ccarETATime", "ETATime");
+                        bulkCopy.ColumnMappings.Add("ccarETDTime", "ETDTime");
                         bulkCopy.DestinationTableName = "Arrangements";
                         bulkCopy.WriteToServer(reader);
                     }

@@ -11,6 +11,8 @@ namespace OkToBoardServices.Models
         public Guid Id { get; set; }
         public DateTime ETADate { get; set; }
         public DateTime ETDDate { get; set; }
+        public DateTime ETATime { get; set; }
+        public DateTime ETDTime { get; set; }
 
         [Required]
         public Guid VesselId { get; set; }

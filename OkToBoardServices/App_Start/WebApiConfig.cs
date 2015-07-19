@@ -10,15 +10,9 @@ namespace OkToBoardServices
         public static void Register(HttpConfiguration config)
         {
             config.Routes.MapHttpRoute(
-                name: "CustomApi2",
-                routeTemplate: "api/ship",
-                defaults: new { controller = "Vessel", action = "GetWholeVessels" }
-            );
-
-            config.Routes.MapHttpRoute(
                 name: "CustomApi1",
                 routeTemplate: "api/shipname",
-                defaults: new { controller = "Vessel", action = "GetVessels" }
+                defaults: new { controller = "Vessel" }
             );
 
             config.Routes.MapHttpRoute(
