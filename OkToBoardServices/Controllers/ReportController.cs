@@ -22,6 +22,15 @@ namespace OkToBoardServices.Controllers
     {
         private DBContext db = new DBContext();
 
+        private string PopulateDateTime(DateTime date, DateTime time)
+        {
+            var result = DateTime.Now.ToString("dd-MMM-yyyy HH:mm");
+            var d = String.Format("{0:d-MMM-yyyy}", date);
+            var t = String.Format("{0:HH:mm}", time);
+            result = String.Format("{0} {1}", d, t);
+            return result;
+        }
+
         // GET api/report
         public HttpResponseMessage Get()
         {
@@ -58,20 +67,20 @@ namespace OkToBoardServices.Controllers
                       'phone_number':null,
                       'report_type':'doc',
                       'user_admin_id':1}";
+                data = @"{'id':3,'first_name':'name 1','last_name':'last 1','crew_id':'ID1','gender':true,'position':'Pos','birthday':'2015-07-20T00:00:00.000Z','birthday_place':null,'passport':'pass','country_id':2,'time_arrive':'20-JUL-2015 at 07:22PM','flight_code':'WS','flight_number':'SWSD','state_id':1,'user_id':3,'batch_id':2,'remark':null,'created_at':'2015-07-20T08:36:11.953Z','updated_at':'2015-07-20T08:36:11.953Z','origin':'ASD','expiry_date':'2015-07-20T00:00:00.000Z','user_approved':null,'user_name':'Nguyen Barry','vessel_name':'Arcadia','eta_time':'16-Feb-2012 08:00','country':'ÿland Islands','phone_number':'+84 0986 977 123','ship_id':'d8688b33-4d8d-458a-b464-8827b722727c','report_type':'doc','user_admin_id':1}";
             }
             Logger.log.Debug(data);
             var obj = JsonConvert.DeserializeObject<GenerateReport>(data);
-            Logger.log.Debug("=========" + data + "=================");
             Logger.log.Debug("=========" + obj + "=================");
             var repor_type = obj.report_type;
             Logger.log.Debug("repor_type: " + repor_type);
             Vessel vessel = db.Vessels.Find(new Guid(obj.ship_id));
             Logger.log.Debug("Vessel: " + vessel.ToString());
-            var etd = vessel.Arrangements.Where(x => x.ETADate == Convert.ToDateTime(obj.eta_time))
-                                         .Select(x => x.ETDDate).FirstOrDefault();
+            var etd = vessel.Arrangements.Where(x => PopulateDateTime(x.ETADate, x.ETATime) == obj.eta_time)
+                                         .Select(x => PopulateDateTime(x.ETDDate, x.ETDTime)).FirstOrDefault();
             Logger.log.Debug("ETD: " + etd);
 
-            var fileName = "Report_" + DateTime.Now.ToString("yyyyMMdd_hhmmss") + "_" + obj.id + "." + repor_type;
+            var fileName = "Report_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + "_" + obj.id + "." + repor_type;
             string dir = EnsurePathExist(HttpContext.Current.Server.MapPath(@"~\GenerateReport"));
             string filePath = String.Format(@"{0}\{1}", dir, fileName);
             string  imagePath = (from rp in db.Reports
@@ -104,22 +113,30 @@ namespace OkToBoardServices.Controllers
                 country = obj.country,
                 date_generate = DateTime.Now.ToString("dd MMMM yyyy"),
                 phone_number = obj.phone_number,
-                birthday = Convert.ToDateTime(obj.birthday).ToString("dd-MM-yyyy"),
-                etd_time = etd.ToString("dd MMMM yyyy")
+                birthday = Convert.ToDateTime(obj.birthday).ToString("dd-MMM-yyyy"),
+                etd_time = etd
             };
             list.Add(listData);
             Logger.log.Debug("====Add data succsess full ===============");
             Logger.log.Debug(String.Format("1."));
             var pr = new ReportParameter("rpt_img", "file:/" + imagePath, true);
-            var report = new LocalReport();
-            report.ReportPath = repportPath;
-            var rds = new ReportDataSource();
-            rds.Name = datasetName;
-            rds.Value = list;
-            report.EnableExternalImages = true;
-            report.SetParameters(pr);
             Logger.log.Debug(String.Format("2."));
+            var report = new LocalReport();
+            Logger.log.Debug(String.Format("3."));
+            report.ReportPath = repportPath;
+            Logger.log.Debug(String.Format("4."));
+            var rds = new ReportDataSource();
+            Logger.log.Debug(String.Format("5."));
+            rds.Name = datasetName;
+            Logger.log.Debug(String.Format("6."));
+            rds.Value = list;
+            Logger.log.Debug(String.Format("7."));
+            report.EnableExternalImages = true;
+            Logger.log.Debug(String.Format("8."));
+            report.SetParameters(pr);
+            Logger.log.Debug(String.Format("9."));
             report.DataSources.Add(rds);
+            Logger.log.Debug(String.Format("10."));
             Logger.log.Debug("start generate report");
             string mimeType;
             string encoding;
@@ -157,7 +174,7 @@ namespace OkToBoardServices.Controllers
             using (FileStream fs = File.Create(filePath))
             {
                 fs.Write(rendereBytes, 0, rendereBytes.Length);
-                Logger.log.Debug(String.Format("3."));
+                Logger.log.Debug(String.Format("8."));
             }
             Logger.log.Debug("=====================create file  ========================");
             var httpResponseMessage = new HttpResponseMessage();
@@ -165,7 +182,7 @@ namespace OkToBoardServices.Controllers
             var file = new FileStream(filePath, FileMode.Open, FileAccess.Read);
             file.Read(rendereBytes, 0, (int)file.Length);
             memoryStream.Write(rendereBytes, 0, (int)file.Length);
-            Logger.log.Debug(String.Format("3."));
+            Logger.log.Debug(String.Format("9."));
             file.Close();
             httpResponseMessage.Content = new ByteArrayContent(memoryStream.ToArray());
             httpResponseMessage.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
@@ -174,7 +191,7 @@ namespace OkToBoardServices.Controllers
             httpResponseMessage.StatusCode = HttpStatusCode.OK;
             File.Delete(filePath);
             Logger.log.Debug("=====================Return file download ========================");
-            Logger.log.Debug(String.Format("4."));
+            Logger.log.Debug(String.Format("10."));
             return httpResponseMessage;
         }
         // GET api/report/5

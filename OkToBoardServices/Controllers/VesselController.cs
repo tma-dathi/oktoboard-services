@@ -29,7 +29,7 @@ namespace OkToBoardServices.Controllers
     {
         private DBContext db = new DBContext();
 
-        // GET api/Vessel/{true/false}
+        // GET api/Vessel
         public object GetVessels(bool isBulkData = false)
         {
             Logger.log.Info("Valid token, here is GetVessels().");
@@ -97,7 +97,7 @@ namespace OkToBoardServices.Controllers
 
         private string PopulateDateTime(DateTime date, DateTime time)
         {
-            var result = DateTime.Now.ToString("d-MMM-yyyy HH:mm");
+            var result = DateTime.Now.ToString("dd-MMM-yyyy HH:mm");
             var d = String.Format("{0:d-MMM-yyyy}", date);
             var t = String.Format("{0:HH:mm}", time);
             result = String.Format("{0} {1}", d, t);

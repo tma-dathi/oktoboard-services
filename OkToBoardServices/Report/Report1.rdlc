@@ -6,7 +6,7 @@
         <Source>External</Source>
         <Value>=Parameters!rpt_img.Value</Value>
         <Sizing>FitProportional</Sizing>
-        <Top>4.74576in</Top>
+        <Top>4.62076in</Top>
         <Left>0.125in</Left>
         <Height>0.95708in</Height>
         <Width>2.88541in</Width>
@@ -126,7 +126,7 @@ Dear Sirs,</Value>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox11</rd:DefaultName>
-        <Top>4.16813in</Top>
+        <Top>4.04313in</Top>
         <Left>0.125in</Left>
         <Height>0.25in</Height>
         <Width>7.20833in</Width>
@@ -156,7 +156,7 @@ Dear Sirs,</Value>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox12</rd:DefaultName>
-        <Top>4.48757in</Top>
+        <Top>4.36257in</Top>
         <Left>0.125in</Left>
         <Height>0.25in</Height>
         <Width>7.20833in</Width>
@@ -186,7 +186,7 @@ Dear Sirs,</Value>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>5.73479in</Top>
+        <Top>5.60979in</Top>
         <Left>0.125in</Left>
         <Height>0.25in</Height>
         <Width>2.88541in</Width>
@@ -208,7 +208,7 @@ Dear Sirs,</Value>
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value EvaluationMode="Constant" />
+                <Value>=First(Fields!user_name.Value, "DataSet1")</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                 </Style>
@@ -218,7 +218,7 @@ Dear Sirs,</Value>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox14</rd:DefaultName>
-        <Top>6.04174in</Top>
+        <Top>5.91674in</Top>
         <Left>0.125in</Left>
         <Height>0.25in</Height>
         <Width>2.88541in</Width>
@@ -266,7 +266,7 @@ Dear Sirs,</Value>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox15</rd:DefaultName>
-        <Top>6.32368in</Top>
+        <Top>6.19868in</Top>
         <Left>0.125in</Left>
         <Height>0.58333in</Height>
         <Width>2.88541in</Width>
@@ -288,7 +288,7 @@ Dear Sirs,</Value>
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>="Contact Person: " &amp; First(Fields!phone_number.Value, "DataSet1")</Value>
+                <Value>="Contact Person: " &amp; First(Fields!user_name.Value, "DataSet1") &amp; " (Tel. " &amp; First(Fields!phone_number.Value, "DataSet1") &amp; ")"</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -296,7 +296,7 @@ Dear Sirs,</Value>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox16</rd:DefaultName>
-        <Top>6.95146in</Top>
+        <Top>6.82646in</Top>
         <Left>0.125in</Left>
         <Height>0.25in</Height>
         <Width>6.54166in</Width>
@@ -853,7 +853,7 @@ Dear Sirs,</Value>
         <Source>Embedded</Source>
         <Value>ISO9001UKAS1</Value>
         <Sizing>FitProportional</Sizing>
-        <Top>18.50002cm</Top>
+        <Top>18.18252cm</Top>
         <Left>0.38806cm</Left>
         <Height>1.5cm</Height>
         <Width>3.86043cm</Width>
@@ -866,7 +866,7 @@ Dear Sirs,</Value>
         </Style>
       </Image>
     </ReportItems>
-    <Height>20.21167cm</Height>
+    <Height>19.8148cm</Height>
     <Style />
   </Body>
   <Width>19cm</Width>
@@ -946,6 +946,7 @@ Dear Sirs,</Value>
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox17</rd:DefaultName>
+          <Top>0in</Top>
           <Left>0.125in</Left>
           <Height>0.4375in</Height>
           <Width>2.49999in</Width>
@@ -1055,6 +1056,7 @@ Dear Sirs,</Value>
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox17</rd:DefaultName>
+          <Top>0in</Top>
           <Left>3.36855in</Left>
           <Height>2.4cm</Height>
           <Width>10cm</Width>
