@@ -41,11 +41,11 @@ namespace OkToBoardServices.Controllers
             else
             {
                 items = db.Vessels.Select(
-                   v => new VesselViewModel
-                   {
-                       Id = v.Id,
-                       Name = v.Name.Trim()
-                   }).OrderBy(c => c.Name).AsEnumerable();
+               v => new VesselViewModel
+               {
+                   Id = v.Id,
+                   Name = v.Name.Trim()
+               }).OrderBy(c => c.Name).AsEnumerable();
             }
             return items;
         }

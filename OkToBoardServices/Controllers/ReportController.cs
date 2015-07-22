@@ -35,114 +35,72 @@ namespace OkToBoardServices.Controllers
         public HttpResponseMessage Get()
         {
             Logger.log.Info("begin");
-            var data = HttpContext.Current.Request.Headers.Get("otb-data-report");
+            string data;
             if (ConfigurationManager.AppSettings["UseFakeData"].ToLower() == "true")
             {
-                data = @"{'id':1,
-                      'first_name':'test',
-                      'last_name':'Nobita',
-                      'crew_id':'12',
-                      'gender':false,
-                      'position':'OK',
-                      'birthday':'2015-07-04T00:00:00.000Z',
-                      'birthday_place':null,
-                      'passport':'OK',
-                      'country_id':8,
-                      'time_arrive':'2015-07-04T00:00:00.000Z',
-                      'flight_code':'ae',
-                      'flight_number':'1212',
-                      'state_id':4,
-                      'user_id':3,
-                      'batch_id':1,
-                      'remark':null,
-                      'created_at':'2015-07-04T04:49:48.774Z',
-                      'updated_at':'2015-07-13T08:04:08.874Z',
-                      'origin':'exq',
-                      'expiry_date':null,
-                      'user_name':'test@tma.com.vn',
-                      'vessel_name':'AMSTERDAM',
-                      'eta_time':'2014-02-25',
-                      'ship_id':'444016b8-cdfd-4620-a9cf-778e6b484349',
-                      'country':'Anguilla',
-                      'phone_number':null,
-                      'report_type':'doc',
-                      'user_admin_id':1}";
-                data = @"{'id':3,'first_name':'name 1','last_name':'last 1','crew_id':'ID1','gender':true,'position':'Pos','birthday':'2015-07-20T00:00:00.000Z','birthday_place':null,'passport':'pass','country_id':2,'time_arrive':'20-JUL-2015 at 07:22PM','flight_code':'WS','flight_number':'SWSD','state_id':1,'user_id':3,'batch_id':2,'remark':null,'created_at':'2015-07-20T08:36:11.953Z','updated_at':'2015-07-20T08:36:11.953Z','origin':'ASD','expiry_date':'2015-07-20T00:00:00.000Z','user_approved':null,'user_name':'Nguyen Barry','vessel_name':'Arcadia','eta_time':'16-Feb-2012 08:00','country':'ÿland Islands','phone_number':'+84 0986 977 123','ship_id':'d8688b33-4d8d-458a-b464-8827b722727c','report_type':'doc','user_admin_id':1}";
+                data = "[{'boarding_info':[{'origin':'LHR','time_arrive':'2015-07-22T19:45:00.000Z','flight_code':'J7','flight_number':'10','id':null,'contact_number':'+84 0986 977 123','vessel_name':'Adonia','eta_time':'14-Mar-2014 08:00','report_type':'doc','user_id':1,'ship_id':'444016b8-cdfd-4620-a9cf-778e6b484349','user_name':'Nguyen Barry','create_time':'22-Jul-2015'}],'crew_info':[{'first_name':'crew 5','last_name':'last 5','position':'Rank','birthday':'2015-07-22T00:00:00.000Z','passport':'Pas','country_id':1,'gender':true,'id':null,'country':'Afghanistan'},{'first_name':'crew 4','last_name':'last 4','position':'Rank 4','birthday':'2015-07-22T00:00:00.000Z','passport':'Pas','country_id':1,'gender':true,'id':null,'country':'Afghanistan'},{'first_name':'crew 3','last_name':'last3 ','position':'Rank 3','birthday':'2015-07-22T00:00:00.000Z','passport':'Pas','country_id':1,'gender':true,'id':null,'country':'Afghanistan'},{'first_name':'crew 2','last_name':'las2','position':'Rank','birthday':'2015-07-22T00:00:00.000Z','passport':'Pass','country_id':1,'gender':true,'id':null,'country':'Afghanistan'},{'first_name':'crew 1','last_name':'last 1','position':'Rank 1','birthday':'2015-07-22T00:00:00.000Z','passport':'Pas','country_id':1,'gender':true,'id':null,'country':'Afghanistan'}]}]";
+                Logger.log.Debug("=========================Data TEST===========================");
             }
-            Logger.log.Debug(data);
-            var obj = JsonConvert.DeserializeObject<GenerateReport>(data);
+            else
+            {
+                 data = "[" + HttpContext.Current.Request.Headers.Get("otb-data-report") + "]"; 
+                 Logger.log.Debug("====Data from Ruby=====" + data);
+            }
+            var obj = JsonConvert.DeserializeObject<List<GenerateReport.RootObject>>(data);
+            var listBoarding = obj[0].boarding_info;
+
+            var boarding_info = listBoarding[0];
+            var listCrew = obj[0].crew_info;
+            string report_type = boarding_info.report_type;
+            string eta_time = boarding_info.eta_time;
+            string ship_id = boarding_info.ship_id;
+            int user_id = boarding_info.user_id;
+
+            Logger.log.Debug("=====report_type====" + report_type + "====eta_time=" + eta_time + "======");
+            Logger.log.Debug("=========" + listBoarding + "=================");
+            Logger.log.Debug("=========" + listCrew + "=================");
             Logger.log.Debug("=========" + obj + "=================");
-            var repor_type = obj.report_type;
+
+            var repor_type = report_type;
             Logger.log.Debug("repor_type: " + repor_type);
-            Vessel vessel = db.Vessels.Find(new Guid(obj.ship_id));
+            Vessel vessel = db.Vessels.Find(new Guid(ship_id));
             Logger.log.Debug("Vessel: " + vessel.ToString());
-            var etd = vessel.Arrangements.Where(x => PopulateDateTime(x.ETADate, x.ETATime) == obj.eta_time)
+            var etd = vessel.Arrangements.Where(x => PopulateDateTime(x.ETADate, x.ETATime) == eta_time)
                                          .Select(x => PopulateDateTime(x.ETDDate, x.ETDTime)).FirstOrDefault();
             Logger.log.Debug("ETD: " + etd);
-
-            var fileName = "Report_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + "_" + obj.id + "." + repor_type;
+            boarding_info.etd_time = etd;
+            var fileName = "Report_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + "_" + user_id + "." + repor_type;
             string dir = EnsurePathExist(HttpContext.Current.Server.MapPath(@"~\GenerateReport"));
             string filePath = String.Format(@"{0}\{1}", dir, fileName);
-            string  imagePath = (from rp in db.Reports
-                                 where rp.Id == obj.user_admin_id
+            string imagePath = (from rp in db.Reports
+                                where rp.Id == user_id
                                 select rp.Image).FirstOrDefault();
             Logger.log.Debug("===========get url signature from database================");
-            string vlGender = obj.gender == "True" ? "Male" : "Female";
+            //string vlGender = obj.gender == "True" ? "Male" : "Female";
             Logger.log.Debug("=========" + imagePath + "=================");
-            var list = new List<GenerateReport>();
-            var repportPath = ConfigurationManager.AppSettings["ReportPath"];
-            var datasetName = ConfigurationManager.AppSettings["DatasetName"];
+            var reportSignlePage = ConfigurationManager.AppSettings["ReportSignlePage"];
+            var reportMultiplePage = ConfigurationManager.AppSettings["ReportMultiplePage"];
+            var dataSetCrewInfo = ConfigurationManager.AppSettings["DataSetCrewInfo"];
             Logger.log.Debug("====Start add data to ===============");
-            var listData = new GenerateReport
-            {
-                first_name = obj.first_name,
-                last_name = obj.last_name,
-                gender = vlGender,
-                crew_id = obj.crew_id,
-                country_id = obj.country_id,
-                passport = obj.passport,
-                position = obj.position,
-                is_flight= obj.is_flight,
-                time_arrive = obj.time_arrive,
-                origin = obj.origin,
-                flight_code = obj.flight_code,
-                flight_number = obj.flight_number,
-                user_name = obj.user_name,
-                vessel_name = obj.vessel_name,
-                eta_time =  obj.eta_time,
-                country = obj.country,
-                date_generate = DateTime.Now.ToString("dd MMMM yyyy"),
-                phone_number = obj.phone_number,
-                birthday = Convert.ToDateTime(obj.birthday).ToString("dd-MMM-yyyy"),
-                etd_time = etd
-            };
-            list.Add(listData);
             Logger.log.Debug("====Add data succsess full ===============");
-            Logger.log.Debug(String.Format("1."));
             var pr = new ReportParameter("rpt_img", "file:/" + imagePath, true);
-            Logger.log.Debug(String.Format("2."));
             var report = new LocalReport();
-            Logger.log.Debug(String.Format("3."));
-            report.ReportPath = repportPath;
-            Logger.log.Debug(String.Format("4."));
+            report.ReportPath = listCrew.Count <= 4 ? reportSignlePage : reportMultiplePage;
+            
             var rds = new ReportDataSource();
-            Logger.log.Debug(String.Format("5."));
-            rds.Name = datasetName;
-            Logger.log.Debug(String.Format("6."));
-            rds.Value = list;
-            Logger.log.Debug(String.Format("7."));
+            rds.Name = dataSetCrewInfo;
+            rds.Value = listCrew;
+            var rds2 = new ReportDataSource { Name = "DataSetBoardingInfo", Value = listBoarding };
             report.EnableExternalImages = true;
-            Logger.log.Debug(String.Format("8."));
             report.SetParameters(pr);
-            Logger.log.Debug(String.Format("9."));
             report.DataSources.Add(rds);
-            Logger.log.Debug(String.Format("10."));
+            report.DataSources.Add(rds2);
             Logger.log.Debug("start generate report");
             string mimeType;
             string encoding;
             string fileNameExtension;
             string reportType;
-            switch (repor_type)
+            switch (report_type)
             {
                 case "xls":
                     reportType = "EXCEL";
@@ -154,19 +112,9 @@ namespace OkToBoardServices.Controllers
                     reportType = "WORD";
                     break;
             }
-            if (repor_type == "doc")
-            {
-                reportType = "WORD";
-            }
             string deviceInfo =
                 "<DeviceInfo>" +
                 "<OutputFormat>" + reportType + "</OutputFormat>" +
-                "<PageWidth>8.5in</PageWidth>" +
-                "<PageHeight>11in</PageHeight>" +
-                "<MarginTop>0.25in</MarginTop>" +
-                "<MarginLeft>0.25in</MarginLeft>" +
-                "<MarginRight>0.25in</MarginRight>" +
-                "<MarginBottom>0.25in</MarginBottom>" +
                 "</DeviceInfo>";
             Warning[] warnings;
             string[] streams;
