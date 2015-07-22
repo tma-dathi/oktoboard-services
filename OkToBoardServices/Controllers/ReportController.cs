@@ -25,7 +25,7 @@ namespace OkToBoardServices.Controllers
         private string PopulateDateTime(DateTime date, DateTime time)
         {
             var result = DateTime.Now.ToString("dd-MMM-yyyy HH:mm");
-            var d = String.Format("{0:d-MMM-yyyy}", date);
+            var d = String.Format("{0:dd-MMM-yyyy}", date);
             var t = String.Format("{0:HH:mm}", time);
             result = String.Format("{0} {1}", d, t);
             return result;
@@ -38,7 +38,7 @@ namespace OkToBoardServices.Controllers
             string data;
             if (ConfigurationManager.AppSettings["UseFakeData"].ToLower() == "true")
             {
-                data = "[{'boarding_info':[{'origin':'LHR','time_arrive':'2015-07-22T19:45:00.000Z','flight_code':'J7','flight_number':'10','id':null,'contact_number':'+84 0986 977 123','vessel_name':'Adonia','eta_time':'14-Mar-2014 08:00','report_type':'doc','user_id':1,'ship_id':'444016b8-cdfd-4620-a9cf-778e6b484349','user_name':'Nguyen Barry','create_time':'22-Jul-2015'}],'crew_info':[{'first_name':'crew 5','last_name':'last 5','position':'Rank','birthday':'2015-07-22T00:00:00.000Z','passport':'Pas','country_id':1,'gender':true,'id':null,'country':'Afghanistan'},{'first_name':'crew 4','last_name':'last 4','position':'Rank 4','birthday':'2015-07-22T00:00:00.000Z','passport':'Pas','country_id':1,'gender':true,'id':null,'country':'Afghanistan'},{'first_name':'crew 3','last_name':'last3 ','position':'Rank 3','birthday':'2015-07-22T00:00:00.000Z','passport':'Pas','country_id':1,'gender':true,'id':null,'country':'Afghanistan'},{'first_name':'crew 2','last_name':'las2','position':'Rank','birthday':'2015-07-22T00:00:00.000Z','passport':'Pass','country_id':1,'gender':true,'id':null,'country':'Afghanistan'},{'first_name':'crew 1','last_name':'last 1','position':'Rank 1','birthday':'2015-07-22T00:00:00.000Z','passport':'Pas','country_id':1,'gender':true,'id':null,'country':'Afghanistan'}]}]";
+                data = "[{'boarding_info':[{'origin':'Cha','flight_code':'Ch','flight_number':'Chai','id':null,'contact_number':null,'vessel_name':'AZAMARA QUEST','eta_time':'06-Mar-2012 07:00','time_arrive':' 2-JUL-2015 at 10:10AM','report_type':'doc','user_id':1,'ship_id':'d3f6169f-4072-42bc-89fe-2dbcdc110c55','user_name':null,'create_time':'22-Jul-2015'}],'crew_info':[{'first_name':'ChaiEn','last_name':'ChaiKo','position':'Chai','birthday':'28-JUN-2015','passport':'Chai','country_id':7,'gender':'Male','id':null,'country':'Angola'}]}]";
                 Logger.log.Debug("=========================Data TEST===========================");
             }
             else
