@@ -7,7 +7,7 @@
         <Value>=Parameters!rpt_img.Value</Value>
         <Sizing>FitProportional</Sizing>
         <Top>4.62076in</Top>
-        <Left>0.125in</Left>
+        <Left>0.4in</Left>
         <Height>0.95708in</Height>
         <Width>2.88541in</Width>
         <ToolTip>externa_img</ToolTip>
@@ -45,7 +45,7 @@ Hong Kong</Value>
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>CC: Airport - Please send 'Ok to Board'</Value>
+                <Value>CC: Airport - Please send 'OK to Board'</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -64,9 +64,9 @@ Dear Sirs,</Value>
         </Paragraphs>
         <rd:DefaultName>Textbox6</rd:DefaultName>
         <Top>0.36118in</Top>
-        <Left>0.13889in</Left>
+        <Left>0.41389in</Left>
         <Height>1.38057in</Height>
-        <Width>7.20833in</Width>
+        <Width>7.45833in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -97,9 +97,9 @@ Dear Sirs,</Value>
         </Paragraphs>
         <rd:DefaultName>Textbox7</rd:DefaultName>
         <Top>1.77924in</Top>
-        <Left>0.13889in</Left>
+        <Left>0.41389in</Left>
         <Height>0.25in</Height>
-        <Width>7.20833in</Width>
+        <Width>7.45833in</Width>
         <ZIndex>2</ZIndex>
         <Style>
           <Border>
@@ -118,7 +118,7 @@ Dear Sirs,</Value>
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>As vessel's agent, We act on behalf the ship shall be responsible for all expenses may be incurred while this crew member(s) are in Hong Kong and their subsequent repatriation in the event of failure to join ship in port.</Value>
+                <Value>As vessel's agent, We act on behalf the ship shall be responsible for all expenses may be incurred while the crew member(s) are in Hong Kong and their subsequent repatriation in the event of failure to join ship in port.</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -127,9 +127,9 @@ Dear Sirs,</Value>
         </Paragraphs>
         <rd:DefaultName>Textbox11</rd:DefaultName>
         <Top>3.84521in</Top>
-        <Left>0.15278in</Left>
+        <Left>0.42778in</Left>
         <Height>0.44792in</Height>
-        <Width>7.20833in</Width>
+        <Width>7.44444in</Width>
         <ZIndex>3</ZIndex>
         <Style>
           <Border>
@@ -157,9 +157,9 @@ Dear Sirs,</Value>
         </Paragraphs>
         <rd:DefaultName>Textbox12</rd:DefaultName>
         <Top>4.36257in</Top>
-        <Left>0.125in</Left>
+        <Left>0.4in</Left>
         <Height>0.25in</Height>
-        <Width>7.20833in</Width>
+        <Width>7.47222in</Width>
         <ZIndex>4</ZIndex>
         <Style>
           <Border>
@@ -187,9 +187,9 @@ Dear Sirs,</Value>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
         <Top>5.60979in</Top>
-        <Left>0.125in</Left>
+        <Left>0.4in</Left>
         <Height>0.25in</Height>
-        <Width>2.88541in</Width>
+        <Width>7.47222in</Width>
         <ZIndex>5</ZIndex>
         <Style>
           <Border>
@@ -219,9 +219,9 @@ Dear Sirs,</Value>
         </Paragraphs>
         <rd:DefaultName>Textbox14</rd:DefaultName>
         <Top>5.91674in</Top>
-        <Left>0.125in</Left>
+        <Left>0.4in</Left>
         <Height>0.25in</Height>
-        <Width>2.88541in</Width>
+        <Width>7.47222in</Width>
         <ZIndex>6</ZIndex>
         <Style>
           <Border>
@@ -267,9 +267,9 @@ Dear Sirs,</Value>
         </Paragraphs>
         <rd:DefaultName>Textbox15</rd:DefaultName>
         <Top>6.19868in</Top>
-        <Left>0.125in</Left>
+        <Left>0.4in</Left>
         <Height>0.58333in</Height>
-        <Width>2.88541in</Width>
+        <Width>7.47222in</Width>
         <ZIndex>7</ZIndex>
         <Style>
           <Border>
@@ -288,8 +288,12 @@ Dear Sirs,</Value>
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>="Contact Person: " &amp; First(Fields!user_name.Value, "DataSetBoardingInfo") &amp; " (Tel. " &amp; First(Fields!contact_number.Value, "DataSetBoardingInfo") &amp; ")"</Value>
-                <Style />
+                <Value>Contact Person: Anthony Leung (Tel. 852-6051 1782)</Value>
+                <Style>
+                  <FontStyle>Normal</FontStyle>
+                  <FontWeight>Normal</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -297,9 +301,9 @@ Dear Sirs,</Value>
         </Paragraphs>
         <rd:DefaultName>Textbox16</rd:DefaultName>
         <Top>6.82646in</Top>
-        <Left>0.125in</Left>
+        <Left>0.4in</Left>
         <Height>0.25in</Height>
-        <Width>6.54166in</Width>
+        <Width>7.47222in</Width>
         <ZIndex>8</ZIndex>
         <Style>
           <Border>
@@ -327,7 +331,7 @@ Dear Sirs,</Value>
         </Paragraphs>
         <rd:DefaultName>Textbox18</rd:DefaultName>
         <Top>0.05562in</Top>
-        <Left>0.125in</Left>
+        <Left>0.4in</Left>
         <Height>0.25in</Height>
         <Width>2.30208in</Width>
         <ZIndex>9</ZIndex>
@@ -360,9 +364,9 @@ Dear Sirs,</Value>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
         <Top>2.09667in</Top>
-        <Left>0.125in</Left>
+        <Left>0.4in</Left>
         <Height>0.25in</Height>
-        <Width>7.20833in</Width>
+        <Width>7.47222in</Width>
         <ZIndex>10</ZIndex>
         <Style>
           <Border>
@@ -390,9 +394,9 @@ Dear Sirs,</Value>
         </Paragraphs>
         <rd:DefaultName>Textbox4</rd:DefaultName>
         <Top>6.21631cm</Top>
-        <Left>0.35278cm</Left>
+        <Left>1.05128cm</Left>
         <Height>0.6cm</Height>
-        <Width>18.27388cm</Width>
+        <Width>18.94416cm</Width>
         <ZIndex>11</ZIndex>
         <Style>
           <Border>
@@ -408,25 +412,25 @@ Dear Sirs,</Value>
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>2.69462cm</Width>
+              <Width>2.60491cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.5cm</Width>
+              <Width>2.41029cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.48103cm</Width>
+              <Width>3.37028cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>3.38459cm</Width>
+              <Width>2.4cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.81343cm</Width>
+              <Width>4.30679cm</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>2.52646cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.76793cm</Width>
+              <Width>1.38718cm</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -547,7 +551,7 @@ Dear Sirs,</Value>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Day Of Birth</Value>
+                              <Value>Date Of Birth</Value>
                               <Style>
                                 <FontStyle>Normal</FontStyle>
                                 <FontWeight>Bold</FontWeight>
@@ -892,9 +896,9 @@ Dear Sirs,</Value>
         </TablixRowHierarchy>
         <DataSetName>DataSetCrewInfo</DataSetName>
         <Top>19.61292cm</Top>
-        <Left>0.38806cm</Left>
+        <Left>1.016cm</Left>
         <Height>1.2cm</Height>
-        <Width>18.16806cm</Width>
+        <Width>19.00591cm</Width>
         <ZIndex>12</ZIndex>
         <Style>
           <Border>
@@ -909,19 +913,19 @@ Dear Sirs,</Value>
               <Width>3.81469cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.80113cm</Width>
+              <Width>3.93985cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>3.4525cm</Width>
+              <Width>2.4cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>3.24084cm</Width>
+              <Width>4.66275cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.5cm</Width>
+              <Width>2.52646cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.5cm</Width>
+              <Width>1.62688cm</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -1003,7 +1007,7 @@ Dear Sirs,</Value>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Da Of Birth</Value>
+                              <Value>Date Of Birth</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -1193,9 +1197,9 @@ Dear Sirs,</Value>
         </TablixRowHierarchy>
         <DataSetName>DataSetBoardingInfo</DataSetName>
         <Top>6.9927cm</Top>
-        <Left>0.35278cm</Left>
+        <Left>1.05128cm</Left>
         <Height>1.2cm</Height>
-        <Width>18.30916cm</Width>
+        <Width>18.97063cm</Width>
         <ZIndex>13</ZIndex>
         <Style>
           <Border>
@@ -1207,7 +1211,7 @@ Dear Sirs,</Value>
     <Height>21.11126cm</Height>
     <Style />
   </Body>
-  <Width>19cm</Width>
+  <Width>21cm</Width>
   <Page>
     <PageHeader>
       <Height>1.76389cm</Height>
@@ -1231,7 +1235,7 @@ Dear Sirs,</Value>
           <Top>1.68451cm</Top>
           <Left>0cm</Left>
           <Height>0cm</Height>
-          <Width>19cm</Width>
+          <Width>21cm</Width>
           <ZIndex>1</ZIndex>
           <Style>
             <Border>
@@ -1284,8 +1288,8 @@ Dear Sirs,</Value>
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox17</rd:DefaultName>
-          <Top>0.6875in</Top>
-          <Left>0.125in</Left>
+          <Top>0.70166in</Top>
+          <Left>0.41389in</Left>
           <Height>0.4375in</Height>
           <Width>2.49999in</Width>
           <Style>
@@ -1397,7 +1401,7 @@ Dear Sirs,</Value>
           <Top>0.6875in</Top>
           <Left>3.36855in</Left>
           <Height>2.4cm</Height>
-          <Width>10cm</Width>
+          <Width>11.43932cm</Width>
           <ZIndex>1</ZIndex>
           <Style>
             <Border>
@@ -1409,8 +1413,8 @@ Dear Sirs,</Value>
           <Source>Embedded</Source>
           <Value>ISO9001UKAS1</Value>
           <Sizing>FitProportional</Sizing>
-          <Top>0.127cm</Top>
-          <Left>0.30704cm</Left>
+          <Top>0.14111cm</Top>
+          <Left>1.05128cm</Left>
           <Height>1.5cm</Height>
           <Width>3.86043cm</Width>
           <ZIndex>2</ZIndex>
@@ -1430,8 +1434,8 @@ Dear Sirs,</Value>
     </PageFooter>
     <PageHeight>29.7cm</PageHeight>
     <PageWidth>21cm</PageWidth>
-    <LeftMargin>1cm</LeftMargin>
-    <RightMargin>1cm</RightMargin>
+    <LeftMargin>0cm</LeftMargin>
+    <RightMargin>0cm</RightMargin>
     <TopMargin>0.5cm</TopMargin>
     <BottomMargin>0.5cm</BottomMargin>
     <ColumnSpacing>1.27cm</ColumnSpacing>
