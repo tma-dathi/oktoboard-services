@@ -21,8 +21,12 @@ namespace OkToBoardServices.Controllers
         // GET api/signature/5
         public HttpResponseMessage Get(int id)
         {
+            Logger.log.Debug(String.Format("Get signature - Id: {0}", id));
             string dir = HttpContext.Current.Server.MapPath(String.Format(@"~\Images\Signatures\{0}", id));
+            Logger.log.Debug(String.Format("Get signature - dir: {0}", dir));
             var image = db.Reports.Where(x => x.Id == id).Select(y => y.Image).First();
+            Logger.log.Debug(String.Format("Get signature - image: {0}", image));
+
             var httpResponseMessage = new HttpResponseMessage();
             var memoryStream = new MemoryStream();
             FileStream fileStream = null;
@@ -57,8 +61,11 @@ namespace OkToBoardServices.Controllers
             {
                 Stream input = HttpContext.Current.Request.InputStream;
                 var userId = int.Parse(HttpContext.Current.Request.Headers.Get("otb-userid"));
+                Logger.log.Debug(String.Format("Post signature - userId: {0}", userId));
                 var filename = HttpContext.Current.Request.Headers.Get("otb-filename");
+                Logger.log.Debug(String.Format("Post signature - filename: {0}", filename));
                 string dir = HttpContext.Current.Server.MapPath(String.Format(@"~\Images\Signatures\{0}", userId));
+                Logger.log.Debug(String.Format("Post signature - dir: {0}", dir));
                 string path = String.Format(@"{0}\{1}", dir, filename);
                 if (filename != null)
                 {
@@ -70,7 +77,7 @@ namespace OkToBoardServices.Controllers
                     var items = new Report { Id = userId, Image = path };
                     db.Reports.Add(items);
                     db.SaveChanges();
-                    Logger.log.Debug("Save successful");
+                    Logger.log.Info("Save signature successful");
                 }
             }
             catch (Exception ex)
@@ -85,12 +92,16 @@ namespace OkToBoardServices.Controllers
         {
             Stream input = HttpContext.Current.Request.InputStream;
             var userId = int.Parse(HttpContext.Current.Request.Headers.Get("otb-userid"));
+            Logger.log.Debug(String.Format("Put signature - userId: {0}", userId));
             var filename = HttpContext.Current.Request.Headers.Get("otb-filename");
+            Logger.log.Debug(String.Format("Put signature - filename: {0}", filename));
             string dir = HttpContext.Current.Server.MapPath(String.Format(@"~\Images\Signatures\{0}", userId));
+            Logger.log.Debug(String.Format("Put signature - dir: {0}", dir));
             if (File.Exists(dir))
             {
                 var directoryInfor = new DirectoryInfo(dir);
                 foreach (FileInfo file in directoryInfor.GetFiles()) file.Delete();
+                Logger.log.Info("dir is exist.");
             }
             else
             {
@@ -108,6 +119,7 @@ namespace OkToBoardServices.Controllers
                 }
                 report.Image = path;
                 db.SaveChanges();
+                Logger.log.Info("Update signature successfully.");
             }
         }
 
