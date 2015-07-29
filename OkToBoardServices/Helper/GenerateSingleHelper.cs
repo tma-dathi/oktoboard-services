@@ -73,7 +73,7 @@ namespace OkToBoardServices.Helper
                         position = t.position
                     };
                     var list = new List<GenerateReport.CrewInfo> { listData };
-                    var fileName = "Report_" + DateTime.Now.ToString("yyyyMMdd_HHmmssffff") + "_" + userId + ".pdf";
+                    var fileName = t.first_name + " " + t.last_name +"_" + DateTime.Now.ToString("yyyyMMdd_HHmmssffff") + ".pdf";
                     string filePathGenerateSingly = String.Format(@"{0}\{1}", filePath, fileName);
                     var reportDataSourceCrews = new ReportDataSource { Name = dataSetCrewInfo, Value = list };
                     Logger.log.Debug("[Single] 1");

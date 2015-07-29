@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Http;
 using OkToBoardServices.Models;
 using System.IO;
+using OkToBoardServices.Helper;
 
 namespace OkToBoardServices.Controllers
 {
@@ -69,7 +70,7 @@ namespace OkToBoardServices.Controllers
                 Arrangements = vv.Arrangements.Select(x => new 
                 {
                     Id = x.Id,
-                    ETADateTime = PopulateDateTime(x.ETADate, x.ETATime) 
+                    ETADateTime = FormatDateTime.Populate(x.ETADate, x.ETATime) 
                 })
             }).AsEnumerable();
             return items;
@@ -89,19 +90,10 @@ namespace OkToBoardServices.Controllers
             var items = vessel.Arrangements.Select(
                 x => new ArrangementViewModel
                 {
-                    ETADateTime = PopulateDateTime(x.ETADate, x.ETATime)
+                    ETADateTime = FormatDateTime.Populate(x.ETADate, x.ETATime)
                 }).AsEnumerable();
 
             return items;
-        }
-
-        private string PopulateDateTime(DateTime date, DateTime time)
-        {
-            var result = DateTime.Now.ToString("dd-MMM-yyyy HH:mm");
-            var d = String.Format("{0:d-MMM-yyyy}", date);
-            var t = String.Format("{0:HH:mm}", time);
-            result = String.Format("{0} {1}", d, t);
-            return result;
         }
 
         // NOT IN USE FOR NOW
