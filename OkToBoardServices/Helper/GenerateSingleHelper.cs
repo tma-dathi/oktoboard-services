@@ -39,9 +39,8 @@ namespace OkToBoardServices.Helper
             string filePath;
             var reportSignlePage = ConfigurationManager.AppSettings["ReportSignlePage"];
             var dataSetCrewInfo = ConfigurationManager.AppSettings["DataSetCrewInfo"];
-            string imagePath = (from rp in Db.Reports
-                                where rp.Id == userId
-                                select rp.Image).FirstOrDefault();
+            string imagePath = ConfigurationManager.AppSettings["ImagePathSignature"];
+            imagePath = HttpContext.Current.Server.MapPath(String.Format(@"~\{0}", imagePath));
             Logger.log.Debug("[Single] imagePath: " + imagePath);
             
             string deviceInfo =

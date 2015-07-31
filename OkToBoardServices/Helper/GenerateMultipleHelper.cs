@@ -24,8 +24,8 @@ namespace OkToBoardServices.Helper
             Logger.log.Debug(String.Format("[Single] Vessel: Name {0} ----- Id {1}", vessel.Name, vessel.Id));
             try
             {
-                var etd = vessel.Arrangements.Where(x => FormatDateTime.Populate(x.ETADate, x.ETATime) == etaTime)
-                                             .Select(x => FormatDateTime.Populate(x.ETDDate, x.ETDTime)).FirstOrDefault();
+            var etd = vessel.Arrangements.Where(x => FormatDateTime.Populate(x.ETADate, x.ETATime) == etaTime)
+                                         .Select(x => FormatDateTime.Populate(x.ETDDate, x.ETDTime)).FirstOrDefault();
                 Logger.log.Debug("[Multiple] etd: " + etd);
                 boardingInfomation.etd_time = (etd == "00:00") ? "" : etd;
             }
@@ -41,10 +41,10 @@ namespace OkToBoardServices.Helper
             string fileReport = listCrew.Count <= 4 ? ConfigurationManager.AppSettings["ReportSignlePage"] : ConfigurationManager.AppSettings["ReportMultiplePage"];
             Logger.log.Debug("fileReport: " + fileReport);
             var dataSetCrewInfo = ConfigurationManager.AppSettings["DataSetCrewInfo"];
-            string imagePath = (from rp in Db.Reports
-                                where rp.Id == userId
-                                select rp.Image).FirstOrDefault();
-            Logger.log.Debug("imagePath: " + imagePath);
+            string imagePath = ConfigurationManager.AppSettings["ImagePathSignature"];
+            imagePath = HttpContext.Current.Server.MapPath(String.Format(@"~\{0}", imagePath));
+            Logger.log.Debug("[Single] imagePath: " + imagePath);
+
             string deviceInfo =
             "<DeviceInfo>" +
             "<OutputFormat>" + reportType + "</OutputFormat>" +

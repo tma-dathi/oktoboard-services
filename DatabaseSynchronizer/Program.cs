@@ -18,7 +18,7 @@ namespace Synchronizer
     public class Program
     {
         static void Main(string[] args)
-        {
+        {            
             Console.WriteLine("starting bulk data...");
             var srcConnection = ConfigurationManager.ConnectionStrings["GWdb"].ConnectionString;
             var destConnection = ConfigurationManager.ConnectionStrings["OTBService"].ConnectionString;
@@ -42,7 +42,7 @@ namespace Synchronizer
             var db = new DBContext();
             db.Database.Initialize(true);
         }
-
+        
         private static void PerformBulkCopyToVessels(string srcConnection, string destConnection)
         {
             using (SqlConnection source = new SqlConnection(srcConnection))
@@ -80,7 +80,7 @@ namespace Synchronizer
         {
             using (SqlConnection source = new SqlConnection(srcConnection))
             {
-                int days = 365;
+                int days = 1825; // 5 years
                 try { days = int.Parse(ConfigurationManager.AppSettings["LastDays"]); }
                 catch (Exception) { }
 

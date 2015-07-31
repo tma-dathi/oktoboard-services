@@ -19,7 +19,7 @@ using Microsoft.Reporting.WebForms;
 
 namespace OkToBoardServices.Controllers
 {
-    [RequireHttps]
+    //[RequireHttps]
     public class ReportController : ApiController
     {
         private DBContext db = new DBContext();
