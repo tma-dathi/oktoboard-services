@@ -14,7 +14,7 @@ namespace OkToBoardServices.Helper
             var t = String.Format("{0:HH:mm}", time);
             t = String.IsNullOrEmpty(t) ? "00:00" : t;
             result = String.Format("{0} {1}", d, t);
-            return result;
+            return result.Trim();
         }
     }
 }

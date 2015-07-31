@@ -9,13 +9,16 @@ using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using DatabaseSynchronizer.Models;
+using System.IO;
+using Microsoft.SqlServer.Management.Smo;
+using Microsoft.SqlServer.Management.Common;
 
 namespace Synchronizer
 {
     public class Program
     {
         static void Main(string[] args)
-        {            
+        {
             Console.WriteLine("starting bulk data...");
             var srcConnection = ConfigurationManager.ConnectionStrings["GWdb"].ConnectionString;
             var destConnection = ConfigurationManager.ConnectionStrings["OTBService"].ConnectionString;
@@ -24,17 +27,22 @@ namespace Synchronizer
             PerformBulkCopyToVessels(srcConnection, destConnection);
             PerformBulkCopyToArrangements(srcConnection, destConnection);
 
+            if (ConfigurationManager.AppSettings["IsDevelopment"].ToLower() == "true")
+            {
+                GenerateDemoData(destConnection);
+            }
+
             Console.WriteLine("done");
             //Console.ReadLine();
         }
 
         private static void PopulateDatabase()
         {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<DBContext, DatabaseSynchronizer.Migrations.Configuration>());
+            System.Data.Entity.Database.SetInitializer(new MigrateDatabaseToLatestVersion<DBContext, DatabaseSynchronizer.Migrations.Configuration>());
             var db = new DBContext();
             db.Database.Initialize(true);
         }
-        
+
         private static void PerformBulkCopyToVessels(string srcConnection, string destConnection)
         {
             using (SqlConnection source = new SqlConnection(srcConnection))
@@ -72,9 +80,13 @@ namespace Synchronizer
         {
             using (SqlConnection source = new SqlConnection(srcConnection))
             {
-                var cmd = @"SELECT ccarArrangeID, ccarShipNameID, ccarETADate, ccarETDDate, ccarETATime, ccarETDTime FROM tblCCArrangement 
+                int days = 365;
+                try { days = int.Parse(ConfigurationManager.AppSettings["LastDays"]); }
+                catch (Exception) { }
+
+                var cmd = String.Format(@"SELECT ccarArrangeID, ccarShipNameID, ccarETADate, ccarETDDate, ccarETATime, ccarETDTime FROM tblCCArrangement 
                             INNER JOIN dbo.tblCCShipName ON ccsnShipNameID = ccarShipNameID 
-                            WHERE ccarIsActive=1 AND ccsnIsActive=1";
+                            WHERE ccarIsActive=1 AND ccsnIsActive=1 AND DATEDIFF(day, ccarETADate, getdate()) between 0 and {0}", days);
                 SqlCommand myCommand = new SqlCommand(cmd, source);
                 source.Open();
                 SqlDataReader reader = myCommand.ExecuteReader();
@@ -102,6 +114,15 @@ namespace Synchronizer
                 }
                 reader.Close();
             }
+        }
+
+        private static void GenerateDemoData(string connectionString)
+        {
+            FileInfo file = new FileInfo("demodata.sql");
+            string script = file.OpenText().ReadToEnd();
+            SqlConnection con = new SqlConnection(connectionString);
+            Server server = new Server(new ServerConnection(con));
+            server.ConnectionContext.ExecuteNonQuery(script);
         }
 
         // NOT IN USE ANYMORE

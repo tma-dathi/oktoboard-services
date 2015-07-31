@@ -25,7 +25,7 @@ namespace OkToBoardServices.Helper
                 var etd = vessel.Arrangements.Where(x => FormatDateTime.Populate(x.ETADate, x.ETATime) == etaTime)
                                              .Select(x => FormatDateTime.Populate(x.ETDDate, x.ETDTime)).FirstOrDefault();
                 Logger.log.Debug("[Single] etd: " + etd);
-                boardingInfomation.etd_time = etd;
+                boardingInfomation.etd_time = (etd == "00:00") ? "" : etd;
             }
             catch (Exception ex)
             {

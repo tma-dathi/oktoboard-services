@@ -21,10 +21,19 @@ namespace OkToBoardServices.Helper
             Logger.log.Debug("etaTime: " + etaTime);
             string reportType = boardingInfomation.report_type;
             Vessel vessel = Db.Vessels.Find(new Guid(boardingInfomation.ship_id));
-            var etd = vessel.Arrangements.Where(x => FormatDateTime.Populate(x.ETADate, x.ETATime) == etaTime)
-                                         .Select(x => FormatDateTime.Populate(x.ETDDate, x.ETDTime)).FirstOrDefault();
-            Logger.log.Debug("etd: " + etd);
-            boardingInfomation.etd_time = etd;
+            Logger.log.Debug(String.Format("[Single] Vessel: Name {0} ----- Id {1}", vessel.Name, vessel.Id));
+            try
+            {
+                var etd = vessel.Arrangements.Where(x => FormatDateTime.Populate(x.ETADate, x.ETATime) == etaTime)
+                                             .Select(x => FormatDateTime.Populate(x.ETDDate, x.ETDTime)).FirstOrDefault();
+                Logger.log.Debug("[Multiple] etd: " + etd);
+                boardingInfomation.etd_time = (etd == "00:00") ? "" : etd;
+            }
+            catch (Exception ex)
+            {
+                Logger.log.Error(ex.InnerException.ToString());
+            }
+
             int userId = boardingInfomation.user_id;
             string dir = CheckExist.EnsurePathExist(HttpContext.Current.Server.MapPath(@"~\GenerateReport"));
             CheckExist.EnsurePathExist(HttpContext.Current.Server.MapPath(@"~\GenerateReport\GenerateMultiplePage"));
