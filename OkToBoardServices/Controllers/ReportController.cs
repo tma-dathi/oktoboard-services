@@ -19,7 +19,7 @@ using Microsoft.Reporting.WebForms;
 
 namespace OkToBoardServices.Controllers
 {
-    //[RequireHttps]
+    [RequireHttps]
     public class ReportController : ApiController
     {
         private DBContext db = new DBContext();
@@ -30,7 +30,7 @@ namespace OkToBoardServices.Controllers
             string data;
             if (ConfigurationManager.AppSettings["UseFakeData"].ToLower() == "true")
             {
-                data = "[{'boarding_info':[{'origin':'','flight_code':'','flight_number':'','id':null,'contact_number':null,'vessel_name':'Europa 2','eta_time':'07-Apr-2012 00:00','time_arrive':'15-JUL-2015 at 11:11AM','report_type':null,'user_id':1,'ship_id':'0858F942-B8C8-49E6-9025-5499A45180F1','user_name':null,'create_time':'27-Jul-2015'}],'crew_info':[{'id':12,'first_name':'Test','last_name':'Test','crew_id':'1','gender':'Male','position':'1','birthday':' 6-JUL-2015','birthday_place':null,'passport':'1','country_id':6,'time_arrive':'2015-07-14T11:11:11.000Z','flight_code':'11','flight_number':'1111','state_id':1,'user_id':3,'batch_id':9,'remark':null,'created_at':'2015-07-13T07:27:07.672Z','updated_at':'2015-07-13T07:27:07.672Z','origin':'111','expiry_date':null,'user_approved':1,'country':'Andorra'}]}]";
+                data = "[{'boarding_info':[{'origin':'LHR','flight_code':'J7','flight_number':'100','id':null,'contact_number':null,'vessel_name':'SUN PRINCESS - BHCC18','eta_time':'14-Aug-2015 00:00','time_arrive':'12-AUG-2015 at 12:00AM','report_type':'pdf','user_id':24,'ship_id':'af839043-5cb5-4d49-a7b8-5fff228fee7e','user_name':null,'create_time':' 4-Aug-2015'}],'crew_info':[{'first_name':'Nickolas','last_name':'Bove','position':'Captain','birthday':' 1-JAN-1900','passport':'H0000006','country_id':101,'gender':'Male','id':null,'country':'INDIAN'}]}]";
                 Logger.log.Debug("=========================Data TEST===========================");
             }
             else

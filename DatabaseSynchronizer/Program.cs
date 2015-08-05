@@ -10,15 +10,13 @@ using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using DatabaseSynchronizer.Models;
 using System.IO;
-using Microsoft.SqlServer.Management.Smo;
-using Microsoft.SqlServer.Management.Common;
 
 namespace Synchronizer
 {
     public class Program
     {
         static void Main(string[] args)
-        {            
+        {
             Console.WriteLine("starting bulk data...");
             var srcConnection = ConfigurationManager.ConnectionStrings["GWdb"].ConnectionString;
             var destConnection = ConfigurationManager.ConnectionStrings["OTBService"].ConnectionString;
@@ -31,7 +29,6 @@ namespace Synchronizer
             {
                 GenerateDemoData(destConnection);
             }
-
             Console.WriteLine("done");
             //Console.ReadLine();
         }
@@ -42,7 +39,7 @@ namespace Synchronizer
             var db = new DBContext();
             db.Database.Initialize(true);
         }
-        
+
         private static void PerformBulkCopyToVessels(string srcConnection, string destConnection)
         {
             using (SqlConnection source = new SqlConnection(srcConnection))
@@ -80,13 +77,18 @@ namespace Synchronizer
         {
             using (SqlConnection source = new SqlConnection(srcConnection))
             {
-                int days = 1825; // 5 years
-                try { days = int.Parse(ConfigurationManager.AppSettings["LastDays"]); }
-                catch (Exception) { }
+                //                int days = 1825; // 5 years
+                //                try { days = int.Parse(ConfigurationManager.AppSettings["LastDays"]); }
+                //                catch (Exception) { }
+
+                //                var cmd = String.Format(@"SELECT ccarArrangeID, ccarShipNameID, ccarETADate, ccarETDDate, ccarETATime, ccarETDTime FROM tblCCArrangement 
+                //                            INNER JOIN dbo.tblCCShipName ON ccsnShipNameID = ccarShipNameID 
+                //                            WHERE ccarIsActive=1 AND ccsnIsActive=1 AND DATEDIFF(day, ccarETADate, getdate()) between 0 and {0}", days);
 
                 var cmd = String.Format(@"SELECT ccarArrangeID, ccarShipNameID, ccarETADate, ccarETDDate, ccarETATime, ccarETDTime FROM tblCCArrangement 
                             INNER JOIN dbo.tblCCShipName ON ccsnShipNameID = ccarShipNameID 
-                            WHERE ccarIsActive=1 AND ccsnIsActive=1 AND DATEDIFF(day, ccarETADate, getdate()) between 0 and {0}", days);
+                            WHERE ccarIsActive=1 AND ccsnIsActive=1");
+
                 SqlCommand myCommand = new SqlCommand(cmd, source);
                 source.Open();
                 SqlDataReader reader = myCommand.ExecuteReader();
@@ -118,46 +120,29 @@ namespace Synchronizer
 
         private static void GenerateDemoData(string connectionString)
         {
-            FileInfo file = new FileInfo("demodata.sql");
-            string script = file.OpenText().ReadToEnd();
-            SqlConnection con = new SqlConnection(connectionString);
-            Server server = new Server(new ServerConnection(con));
-            server.ConnectionContext.ExecuteNonQuery(script);
-        }
-
-        // NOT IN USE ANYMORE
-        private static List<string> GetListId(SqlDataReader reader)
-        {
-            List<string> listIDs = new List<string>();
-
-            // write each record
-            while (reader.Read())
+            try
             {
-                listIDs.Add(reader["Id"].ToString());
-            }
+                Console.WriteLine("connectionString: " + connectionString);
 
-            return listIDs;
-        }
-
-        // NOT IN USE ANYMORE
-        private static string PopulateStringNotIn(SqlDataReader reader)
-        {
-            var listIDs = GetListId(reader);
-
-            StringBuilder result = new StringBuilder();
-            if (listIDs.Count > 0)
-            {
-                result = result.Append("(");
-                foreach (var id in listIDs)
+                string fn = "demodata.sql";
+                try { fn = ConfigurationManager.AppSettings["FakeData"]; }
+                catch (Exception) { } 
+                FileInfo file = new FileInfo(AppDomain.CurrentDomain.BaseDirectory + fn);
+                Console.WriteLine("file: " + file);
+                string script = file.OpenText().ReadToEnd();
+                using (SqlConnection con = new SqlConnection(connectionString))
                 {
-                    result = result.Append(String.Format("'{0}'", id));
-                    result = result.Append(", ");
+                    con.Open();
+                    SqlCommand command = new SqlCommand(script, con);
+                    command.ExecuteNonQuery();
                 }
-                result = result.Append(")");
-                result = result.Replace(", )", ")");
             }
-            return result.ToString();
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.InnerException.Message);
+                System.Threading.Thread.Sleep(5000);
+                Console.ReadLine();
+            }
         }
-
     }
 }

@@ -100,22 +100,41 @@ namespace OkToBoardServices.Helper
             }
             else
             {
-                var fileName = "Report_" + DateTime.Now.ToString("yyyyMMdd_HHmmssffff") + "_" + userId + ".pdf";
-                dir = CheckExist.EnsurePathExist(HttpContext.Current.Server.MapPath(@"~\GenerateReport\GenerateSingle"));
-                filePath = String.Format(@"{0}\{1}", dir, fileName);
-                var report = new LocalReport { ReportPath = reportSignlePage };
-                var reportDataSourceCrews = new ReportDataSource { Name = dataSetCrewInfo, Value = listCrew };
-                var reportDataSourceBoardings = new ReportDataSource { Name = "DataSetBoardingInfo", Value = listBoarding };
-                report.EnableExternalImages = true;
-                var pr = new ReportParameter("rpt_img", "file:/" + imagePath, true);
-                report.SetParameters(pr);
-                report.DataSources.Add(reportDataSourceCrews);
-                report.DataSources.Add(reportDataSourceBoardings);
-                var rendereBytes = report.Render(fileType, deviceInfo, out mimeType, out encoding, out fileNameExtension, out streams, out warnings);
-                using (FileStream fs = File.Create(filePath))
+                try
                 {
-                    fs.Write(rendereBytes, 0, rendereBytes.Length);
+                    Logger.log.Debug("[Single] 11");
+                    var fileName = "Report_" + DateTime.Now.ToString("yyyyMMdd_HHmmssffff") + "_" + userId + ".pdf";
+                    dir = CheckExist.EnsurePathExist(HttpContext.Current.Server.MapPath(@"~\GenerateReport\GenerateSingle"));
+                    Logger.log.Debug("[Single] 22");
+                    filePath = String.Format(@"{0}\{1}", dir, fileName);
+                    var report = new LocalReport { ReportPath = reportSignlePage };
+                    Logger.log.Debug("[Single] 33");
+                    var reportDataSourceCrews = new ReportDataSource { Name = dataSetCrewInfo, Value = listCrew };
+                    Logger.log.Debug("[Single] 44");
+                    var reportDataSourceBoardings = new ReportDataSource { Name = "DataSetBoardingInfo", Value = listBoarding };
+                    Logger.log.Debug("[Single] 55");
+                    report.EnableExternalImages = true;
+                    var pr = new ReportParameter("rpt_img", "file:/" + imagePath, true);
+                    Logger.log.Debug("[Single] 66");
+                    report.SetParameters(pr);
+                    Logger.log.Debug("[Single] 77");
+                    report.DataSources.Add(reportDataSourceCrews);
+                    Logger.log.Debug("[Single] 88");
+                    report.DataSources.Add(reportDataSourceBoardings);
+                    Logger.log.Debug("[Single] 99");
+                    var rendereBytes = report.Render(fileType, deviceInfo, out mimeType, out encoding, out fileNameExtension, out streams, out warnings);
+                    Logger.log.Debug("[Single] 100");
+                    using (FileStream fs = File.Create(filePath))
+                    {
+                        fs.Write(rendereBytes, 0, rendereBytes.Length);
+                    }
                 }
+                catch (Exception ex)
+                {
+                    Logger.log.Error("[Single] Exception: " + ex.InnerException.Message);
+                    throw;
+                }
+                Logger.log.Debug("[Single] 111");
             }
             Logger.log.Debug("[Single] filePath: " + filePath);
             return filePath;
