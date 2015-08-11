@@ -24,8 +24,8 @@ namespace OkToBoardServices.Helper
             Logger.log.Debug(String.Format("[Single] Vessel: Name {0} ----- Id {1}", vessel.Name, vessel.Id));
             try
             {
-            var etd = vessel.Arrangements.Where(x => FormatDateTime.Populate(x.ETADate, x.ETATime) == etaTime)
-                                         .Select(x => FormatDateTime.Populate(x.ETDDate, x.ETDTime)).FirstOrDefault();
+                var etd = vessel.Arrangements.Where(x => FormatDateTime.Populate(x.ETADate, x.ETATime) == etaTime)
+                                             .Select(x => FormatDateTime.Populate(x.ETDDate, x.ETDTime)).FirstOrDefault();
                 Logger.log.Debug("[Multiple] etd: " + etd);
                 boardingInfomation.etd_time = (etd == "00:00") ? "" : etd;
             }

@@ -70,7 +70,8 @@ namespace OkToBoardServices.Controllers
                 Arrangements = vv.Arrangements.Select(x => new 
                 {
                     Id = x.Id,
-                    ETADateTime = FormatDateTime.Populate(x.ETADate, x.ETATime) 
+                    ETADateTime = FormatDateTime.Populate(x.ETADate, x.ETATime),
+                    ETDDateTime = FormatDateTime.Populate(x.ETDDate, x.ETDTime) == "00:00" ? "" : FormatDateTime.Populate(x.ETDDate, x.ETDTime)
                 })
             }).AsEnumerable();
             return items;
